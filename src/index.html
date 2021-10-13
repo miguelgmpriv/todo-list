@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1>Hello world</h1>
-    <button id="add-task-button">New Task</button>
-    <div class="add-task-container" id="add-task-container">
-        <form class="task-form">
+    <button id="new-task-button">New Task</button>
+    <dialog class="add-task-container" id="add-task-container">
+        <form class="add-task-form" id="add-task-form" method="dialog">
             <label><input type="text" name="task-title" id="task-title"></label>
             <label><input type="text" name="task-title" id="task-description"></label>
             <label><input type="date" name="task-date" id="task-date"></label>
@@ -21,8 +21,9 @@
                     <option value="low">Low Priority</option>
                 </select>
             </label>
-            <input type="submit" value="Add Task">
+            <button type="button" value="cancel">Cancel</button>
+            <button id="add-task-button">Add Task</button>
         </form>
-    </div>
+    </dialog>
 </body>
 </html>
