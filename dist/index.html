@@ -8,12 +8,22 @@
 <script defer src="main.js"></script></head>
 <body>
     <h1>Hello world</h1>
-    <button>New Task</button>
-    <template id="add-task">
-        <fieldset>
-            <input type="text" id="task-title">
-            <input type="text" id="task-description">
-        </fieldset>
-    </template>
+    <button id="add-task-button">New Task</button>
+    <dialog class="add-task-container" id="add-task-container">
+        <form class="add-task-form" id="add-task-form">
+            <label><input type="text" name="task-title" id="task-title"></label>
+            <label><input type="text" name="task-title" id="task-description"></label>
+            <label><input type="date" name="task-date" id="task-date"></label>
+            <label>
+                <select name="task-priority" id="task-priority">
+                    <option value="high">High Priority</option>
+                    <option value="normal" selected>Normal Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+            </label>
+            <button value="cancel">Cancel</button>
+            <button type="submit">Add Task</button>
+        </form>
+    </dialog>
 </body>
 </html>

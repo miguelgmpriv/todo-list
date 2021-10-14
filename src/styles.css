@@ -8,5 +8,5 @@ fieldset{
     border: 0 none;
 }
 .add-task-container{
-
+    display: none;
 }
