@@ -1,4 +1,4 @@
-import { addTaskContainer, addTaskForm, matchTaskString } from "./domglobals";
+import { addTaskContainer, addTaskForm, stringToMatch } from "./domglobals";
 
 
 
@@ -10,23 +10,33 @@ const openAddTask = () => {
 const submit = (event) => {
     event.preventDefault();
     getTaskInfo(event.target);
-    addTaskContainer.style.display = 'none';
+    event.target.parentNode.style.display = 'none';
 }
+
+const match = (() => {
+    const against = (attribute) => {return stringToMatch.test(attribute)};
+    const remove = (attribute) => {return attribute.replace(stringToMatch, '')};
+    return {
+        against,
+        remove,
+    };
+})()
+
 
 const getTaskInfo = (inputInfo) => {
     const infoArray = Array.from(inputInfo);
-    const sortedArray = infoArray.reduce((taskArray, currentValue) =>{
-        const result = matchTaskString.test(currentValue.id);
-        if(result) taskArray[currentValue.id.replace(matchTaskString, '')] = currentValue.value;
-        return taskArray;
-    }, [])
+    const taskObject = infoArray.reduce((keys, currentValue) =>{
+        const id = currentValue.id;
+        const value = currentValue.value;
+        const result = match.against(id);
+        if(result) keys[match.remove(id)] = value;
+        return keys;
+    }, {});
+    return taskObject;
 }
 
-const createTask = (details) => {
-    const title = details[`title`];
-    const description = details[`description`];
-    const date = details[`date`];
-    const priority = details[`priority`];
+const createTask = ({title, description, priority, date}) => {
+
     
     return {
         title,
