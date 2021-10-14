@@ -2,25 +2,38 @@ import { addTaskContainer, addTaskForm, matchTaskString } from "./domglobals";
 
 
 
-const startToAddTask = () => {
+const openAddTask = () => {
     addTaskContainer.style.display = 'flex';
-    addTaskForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        getTaskInfo(e.target);
-    }); 
+    addTaskContainer.addEventListener('submit', submit);
+}
+
+const submit = (event) => {
+    event.preventDefault();
+    getTaskInfo(event.target);
+    addTaskContainer.style.display = 'none';
 }
 
 const getTaskInfo = (inputInfo) => {
     const infoArray = Array.from(inputInfo);
-    const test = infoArray.reduce((taskObject, currentValue) =>{
+    const sortedArray = infoArray.reduce((taskArray, currentValue) =>{
         const result = matchTaskString.test(currentValue.id);
-        if(result) taskObject[currentValue.id] = currentValue.value;
-        console.log(taskObject);
-        return taskObject;
-    }, {})
-    console.log(test);
-    console.log(infoArray);
+        if(result) taskArray[currentValue.id.replace(matchTaskString, '')] = currentValue.value;
+        return taskArray;
+    }, [])
 }
 
+const createTask = (details) => {
+    const title = details[`title`];
+    const description = details[`description`];
+    const date = details[`date`];
+    const priority = details[`priority`];
+    
+    return {
+        title,
+        description,
+        date,
+        priority,
+    }
+}
 
-export { startToAddTask }
+export { openAddTask }

@@ -1,6 +1,6 @@
 import './styles.css';
 import { newTaskButton, addTaskContainer } from './domglobals';
-import { startToAddTask } from './addtask';
+import { openAddTask } from './addtask';
 
 
-newTaskButton.addEventListener('click', startToAddTask)
+newTaskButton.addEventListener('click', openAddTask)
