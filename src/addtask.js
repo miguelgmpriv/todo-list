@@ -1,4 +1,4 @@
-import { addTaskContainer, addTaskForm, stringToMatch, taskTemplate } from "./domglobals";
+import { addTaskContainer, stringToMatch, taskTemplate } from "./domglobals";
 import { v4 as uuidv4 } from 'uuid';
 
 const toDoList = [];
@@ -36,9 +36,23 @@ const createClone = (template) => {
 
 const addTasksToDom = (listobject) => {
     const newTask = createClone(taskTemplate);
-    console.log(listobject);
-    console.log(newTask);
+    listobject.forEach(element => {
+        console.log((taskDetailsForDom(element)));
+    });
+
 }
+
+const createDomForDetails = (details) => {
+    console.log(details);
+    const container = document.createElement('p');
+    
+}
+
+const taskDetailsForDom = (details) => {
+    const {title, description, date, priority} = details;
+    return {title, description, date, priority}
+}
+
 const getTaskInfo = (inputInfo) => {
     const infoArray = Array.from(inputInfo);
     const taskObject = infoArray.reduce((keys, currentValue) =>{
@@ -53,7 +67,6 @@ const getTaskInfo = (inputInfo) => {
 
 const task = ({title, description, priority, date, project = 'default'}) => {
     const id = uuidv4();
-    
     return {
         id,
         title,
