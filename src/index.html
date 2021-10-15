@@ -7,12 +7,10 @@
     <title>Task Helper</title>
 </head>
 <body>
-    <h1>Hello world</h1>
-    <button id="new-task-button">New Task</button>
     <div class="add-task-container" id="add-task-container">
         <form class="add-task-form" id="add-task-form">
             <label><input type="text" name="task-title" id="task-title"></label>
-            <label><input type="text" name="task-title" id="task-description"></label>
+            <label><input type="text" name="task-description" id="task-description"></label>
             <label><input type="date" name="task-date" id="task-date"></label>
             <label>
                 <select name="task-priority" id="task-priority">
@@ -25,5 +23,23 @@
             <input type="submit" id="add-task-button" value="Add Task">
         </form>
     </div>
+    <div class="container">
+        <h1>Get-To-It</h1>
+        <button id="new-task-button">New Task</button>
+        <div class="sidebar">
+
+        </div>
+        <div class="task-list">
+
+        </div>
+    </div>
+    <template id="task-template">
+        <div class="task">
+            <p class="title"></p>
+            <p class="description"></p>
+            <p class="date"></p>
+            <p class="priority"></p>
+        </div>
+    </template>
 </body>
 </html>

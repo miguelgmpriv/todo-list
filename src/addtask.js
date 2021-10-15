@@ -1,6 +1,7 @@
-import { addTaskContainer, addTaskForm, stringToMatch } from "./domglobals";
+import { addTaskContainer, addTaskForm, stringToMatch, taskTemplate } from "./domglobals";
+import { v4 as uuidv4 } from 'uuid';
 
-
+const toDoList = [];
 
 const openAddTask = () => {
     addTaskContainer.style.display = 'flex';
@@ -9,8 +10,10 @@ const openAddTask = () => {
 
 const submit = (event) => {
     event.preventDefault();
-    getTaskInfo(event.target);
+    event.stopPropagation();
     event.target.parentNode.style.display = 'none';
+    createTask(event.target);
+    addTasksToDom(toDoList);
 }
 
 const match = (() => {
@@ -22,7 +25,20 @@ const match = (() => {
     };
 })()
 
+const createTask = (details)=>{
+    return toDoList.push(task(getTaskInfo(details)));
+};
 
+const createClone = (template) => {
+    return template.content.firstElementChild.cloneNode(true)
+};
+
+
+const addTasksToDom = (listobject) => {
+    const newTask = createClone(taskTemplate);
+    console.log(listobject);
+    console.log(newTask);
+}
 const getTaskInfo = (inputInfo) => {
     const infoArray = Array.from(inputInfo);
     const taskObject = infoArray.reduce((keys, currentValue) =>{
@@ -35,14 +51,16 @@ const getTaskInfo = (inputInfo) => {
     return taskObject;
 }
 
-const createTask = ({title, description, priority, date}) => {
-
+const task = ({title, description, priority, date, project = 'default'}) => {
+    const id = uuidv4();
     
     return {
+        id,
         title,
         description,
         date,
         priority,
+        project,
     }
 }
 
