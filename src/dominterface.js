@@ -1,6 +1,4 @@
-import { createTask } from "./addtask";
-
-const addTaskForm = document.getElementById('add-task-form');
+import { addTaskInMemory,toDoListCopy } from "./addtask";
 
 const createClone = () => {
     const taskTemplate = document.getElementById('task-template');
@@ -25,23 +23,48 @@ const setButtonListener = () => {
 const openAddTask = () => {
     const addTaskContainer = document.getElementById('add-task-container')
     addTaskContainer.style.display = 'flex';
-    addTaskContainer.addEventListener('submit', submit);
+    addTaskContainer.addEventListener('submit', handleSubmit);
 }
 
 const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     event.target.parentNode.style.display = 'none';
+    createTask(event.target);
+}
+const createTask = (domInfo) => {
+    const taskDetails = getDetailsFromDom(domInfo);
+    const taskContainer = document.querySelector('.task-list');
+    addTaskInMemory(taskDetails);
+    taskContainer.append(makeTaskInDom(taskDetails));
 }
 
-const submit = (event) => {
-    handleSubmit(event);
-    const taskDetails = getTaskInfo(event.target);
-    createTask(taskDetails);
-    addTasksToDom(toDoList);
+const addTasksToDom = (listobject) => {
+    const newTask = createClone(taskTemplate);
+    listobject.forEach(element => {
+        console.log((taskDetailsForDom(element)));
+    });
+
 }
 
-const getTaskInfo = (inputInfo) => {
+const makeTaskInDom = (taskDetails) => {
+    const taskDiv = createClone();
+    for (const key in taskDetails) {
+        const container = document.createElement('p');
+        container.id = key;
+        container.textContent = taskDetails[key];
+        taskDiv.append(container);
+    }
+    return taskDiv;    
+}
+
+const taskDetailsForDom = (details) => {
+    const {title, description, date, priority} = details;
+    return {title, description, date, priority}
+}
+
+
+const getDetailsFromDom = (inputInfo) => {
     const infoArray = Array.from(inputInfo);
     const taskObject = infoArray.reduce((keys, currentValue) =>{
         const id = currentValue.id;
