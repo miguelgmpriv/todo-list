@@ -4,11 +4,11 @@ const toDoList = [];
 
 const toDoListCopy = () => { toDoList };
 
-const addTaskInMemory = (details)=>{
+const addTaskInMemory = (details) => {
     return toDoList.push(task(details));
 };
 
-const task = ({title, description, priority, date, project = 'default'}) => {
+const task = ({title, description, priority, date, project = 'Inbox'}) => {
     const id = uuidv4();
     return {
         id,

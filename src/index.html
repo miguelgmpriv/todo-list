@@ -23,16 +23,24 @@
             <input type="submit" id="add-task-button" value="Add Task">
         </form>
     </div>
-    <div class="container">
-        <h1>Get-To-It</h1>
-        <button id="new-task-button">New Task</button>
-        <div class="sidebar">
-
+        <header class="header">
+            <h1>Get-To-It</h1>
+        </header>
+        <div class="content">
+            <div class="sidebar">
+                <button>Inbox</button>
+                <button>Today</button>
+                <button>Upcoming</button>
+                <h2>Projects</h2>
+                <button id="new-project-button">New Project</button>
+            </div>
+            <div class="task-list">
+                <button id="new-task-button">New Task</button>
+            </div>
         </div>
-        <div class="task-list">
-
-        </div>
-    </div>
+        <footer class="footer">
+            <h3>Test Footer</h3>
+        </footer>
     <template id="task-template">
         <div class="task">
 

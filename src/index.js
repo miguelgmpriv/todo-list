@@ -1,7 +1,5 @@
 import './styles.css';
-import { setButtonListener } from './dominterface';
+import { setAddTaskListener } from "./userinterface";
 
-setButtonListener();
-
-
+setAddTaskListener();
 

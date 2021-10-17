@@ -1,9 +1,38 @@
-#add-task{
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-h1{
-    color: rgba(18, 16, 19, 0.315);
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
+
+.content{
+    display: flex;
+    flex: 1;
+}
+
+.header,
+.footer{
+    color: blanchedalmond;
+    background-color: rgb(24, 24, 41);
+    font-family: 'Roboto Mono', monospace;
+    padding: 1rem;
+}
+
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    padding: 2rem;
+    gap: 1rem;
+    background-color: cornsilk;
+}
+
 fieldset{
     border: 0 none;
 }

@@ -15,23 +15,7 @@ const match = (() => {
     };
 })()
 
-const setButtonListener = () => {
-    const newTaskButton = document.getElementById('new-task-button');
-    newTaskButton.addEventListener('click', openAddTask)
-}
 
-const openAddTask = () => {
-    const addTaskContainer = document.getElementById('add-task-container')
-    addTaskContainer.style.display = 'flex';
-    addTaskContainer.addEventListener('submit', handleSubmit);
-}
-
-const handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    event.target.parentNode.style.display = 'none';
-    createTask(event.target);
-}
 const createTask = (domInfo) => {
     const taskDetails = getDetailsFromDom(domInfo);
     const taskContainer = document.querySelector('.task-list');
@@ -51,7 +35,7 @@ const makeTaskInDom = (taskDetails) => {
     const taskDiv = createClone();
     for (const key in taskDetails) {
         const container = document.createElement('p');
-        container.id = key;
+        container.classList.add(key);
         container.textContent = taskDetails[key];
         taskDiv.append(container);
     }
@@ -86,4 +70,4 @@ const getDetailsFromDom = (inputInfo) => {
 
 
 
-export { setButtonListener }
+export { createTask }
