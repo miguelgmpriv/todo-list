@@ -1,5 +1,6 @@
 import './styles.css';
-import { limitDates, setAddTaskListener } from "./userinterface";
+import { limitDates, setAddTaskListener, setCloseTaskListener } from "./userinterface";
 
 setAddTaskListener();
 limitDates();
+setCloseTaskListener();

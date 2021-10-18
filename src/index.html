@@ -9,8 +9,10 @@
 <body>
     <div class="add-task-container" id="add-task-container">
         <form class="add-task-form" id="add-task-form">
-            <label><input type="text" name="task-title" id="task-title" required></label>
-            <label><textarea rows="4" name="task-description" id="task-description"></textarea></label>
+            <div class="add-task-header">
+                <label><input placeholder="Give your task a title!" type="text" name="task-title" id="task-title" required></label><span class="task-close"></span>
+            </div>
+            <label><textarea placeholder="Here write down a helpful description" rows="4" name="task-description" id="task-description"></textarea></label>
             <label><input type="date" name="task-date" id="task-date"></label>
             <label>
                 <select name="task-priority" id="task-priority">
@@ -19,8 +21,7 @@
                     <option value="low">Low Priority</option>
                 </select>
             </label>
-            <button type="button" value="cancel">Cancel</button>
-            <input type="submit" id="add-task-button" value="Add Task">
+            <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
         </form>
     </div>
         <header class="header">

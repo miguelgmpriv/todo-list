@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const toDoList = [];
 
-const toDoListCopy = () => { toDoList };
+const toDoListCopy = () => toDoList;
 
 const addTaskInMemory = (details) => {
     return toDoList.push(task(details));

@@ -18,9 +18,18 @@ const match = (() => {
 
 const createTask = (domInfo) => {
     const taskDetails = getDetailsFromDom(domInfo);
-    const taskContainer = document.querySelector('.task-list');
     addTaskInMemory(taskDetails);
-    taskContainer.append(makeTaskInDom(taskDetails));
+    updateTaskList();
+}
+
+const updateTaskList = () => {
+    const toDoList = toDoListCopy();
+    const taskContainer = document.querySelector('.task-list');
+    for (const element of toDoList){
+        const taskCard = makeTaskInDom(element);
+        taskContainer.append(taskCard);
+    }
+    //taskContainer.append(makeTaskInDom(taskDetails));
 }
 
 const addTasksToDom = (listobject) => {
@@ -32,11 +41,12 @@ const addTasksToDom = (listobject) => {
 }
 
 const makeTaskInDom = (taskDetails) => {
+    const mainDetails = taskDetailsForDom(taskDetails);
     const taskDiv = createClone();
-    for (const key in taskDetails) {
+    for (const key in mainDetails) {
         const container = document.createElement('p');
         container.classList.add(key);
-        container.textContent = taskDetails[key];
+        container.textContent = mainDetails[key];
         taskDiv.append(container);
     }
     return taskDiv;    
