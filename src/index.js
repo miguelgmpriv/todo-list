@@ -1,6 +1,6 @@
 import './styles.css';
-import { limitDates, setAddTaskListener, setCloseTaskListener } from "./userinterface";
+import { limitDates, setAddTaskListener, setTaskListeners } from "./userinterface";
+import { updateTaskList } from "./domfunctions";
 
-setAddTaskListener();
+updateTaskList();
 limitDates();
-setCloseTaskListener();

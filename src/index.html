@@ -16,34 +16,38 @@
             <label><input type="date" name="task-date" id="task-date"></label>
             <label>
                 <select name="task-priority" id="task-priority">
-                    <option value="high">High Priority</option>
-                    <option value="normal" selected>Normal Priority</option>
-                    <option value="low">Low Priority</option>
+                    <option value="High">High Priority</option>
+                    <option value="Normal" selected>Normal Priority</option>
+                    <option value="Low">Low Priority</option>
                 </select>
             </label>
+            <input list="projects" placeholder="Inbox" id="task-projects" type="text">
+            <datalist id="projects">
+                <option value="Inbox">
+            </datalist>
             <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
         </form>
     </div>
-        <header class="header">
-            <h1>Get-To-It</h1>
-        </header>
-        <div class="content">
-            <div class="sidebar">
-                <button>Inbox</button>
-                <button>Today</button>
-                <button>Upcoming</button>
-                <h2>Projects</h2>
-                <button id="new-project-button">New Project</button>
-            </div>
-            <div class="task-list">
-                <button id="new-task-button">New Task</button>
-            </div>
+    <header class="header">
+        <h1>Get-To-It</h1>
+    </header>
+    <div class="content">
+        <div class="sidebar">
+            <button>Inbox</button>
+            <button>Today</button>
+            <button>Upcoming</button>
+            <h2>Projects</h2>
+            <button id="new-project-button">New Project</button>
         </div>
-        <footer class="footer">
-            <h3>Test Footer</h3>
-        </footer>
+        <div class="task-list" data-project="Inbox">
+        </div>
+    </div>
+    <footer class="footer">
+        <h3>Test Footer</h3>
+    </footer>
     <template id="task-template">
         <div class="task"></div>
+        <button id="new-task-button">New Task</button>
     </template>
 </body>
 </html>

@@ -3,14 +3,12 @@ import { formatISO } from "date-fns";
 
 const addTaskContainer = document.getElementById('add-task-container');
 const addTaskForm = document.getElementById('add-task-form');
-const tasks = () => document.querySelectorAll('.task');
+const toggleHidden = (element) => element.classList.toggle('hidden');
 
 const addTaskHide = () => {
     toggleHidden(addTaskContainer);
     addTaskForm.reset();
 }
-
-const toggleHidden = (element) => element.classList.toggle('hidden');
 
 const toggleTaskDescription = (event) => {
     const target = event.target;
@@ -28,22 +26,15 @@ const findNode = (nodeList, taskClass) => {
     }
 }
 
-const setTaskListener = () => {
-    const currentTasks = tasks();
+const setTaskListeners = (nodeList) => {
+    const currentTasks = nodeList.querySelectorAll('.task');
+    const newTaskButton = nodeList.querySelector('#new-task-button');
+    newTaskButton.addEventListener('click', openAddTaskModal)
     currentTasks.forEach(element => {
         element.addEventListener('click', toggleTaskDescription)
     });
 }
 
-const setAddTaskListener = () => {
-    const newTaskButton = document.getElementById('new-task-button');
-    newTaskButton.addEventListener('click', openAddTaskModal)
-}
-
-const setCloseTaskListener = () => {
-    const addTaskClose = document.querySelector('.task-close');
-    addTaskClose.addEventListener('click', addTaskHide);
-}
 
 const setNewProjectListener = () => {
     const newProjectButton = document.getElementById('new-project-button');
@@ -52,6 +43,8 @@ const setNewProjectListener = () => {
 
 const openAddTaskModal = () => {
     toggleHidden(addTaskContainer);
+    const addTaskClose = document.querySelector('.task-close');
+    addTaskClose.addEventListener('click', addTaskHide);
     addTaskContainer.addEventListener('submit', handleSubmit);
 }
 
@@ -69,4 +62,4 @@ const limitDates = () => {
     addTaskMinDate.setAttribute('min', today);
 }
 
-export { setAddTaskListener, limitDates, setCloseTaskListener, setTaskListener }
+export { limitDates, setTaskListeners }

@@ -1,10 +1,21 @@
 import { addTaskInMemory,toDoListCopy } from "./addtask";
-import { setTaskListener } from "./userinterface";
+import { setTaskListeners } from "./userinterface";
 
 const createClone = () => {
     const taskTemplate = document.getElementById('task-template');
     return taskTemplate.content.firstElementChild.cloneNode(true)
 };
+
+const clone = (() => {
+    const taskTemplate = document.getElementById('task-template');
+    const taskContainer = () => taskTemplate.content.firstElementChild.cloneNode(true);
+    const newTaskButton = () => taskTemplate.content.children[1].cloneNode(true);
+    return {
+        newTaskButton,
+        taskContainer,
+    }
+})();
+
 const match = (() => {
     const stringToMatch = /^task-/;
     const lookFor = (attribute) => {return stringToMatch.test(attribute)};
@@ -14,20 +25,25 @@ const match = (() => {
         removeFrom,
     };
 })();
+
 const createTask = (domInfo) => {
     const taskDetails = getDetailsFromDom(domInfo);
     addTaskInMemory(taskDetails);
     updateTaskList();
 };
+
 const updateTaskList = () => {
     const toDoList = toDoListCopy();
     const taskContainer = document.querySelector('.task-list');
+    const newButton = clone.newTaskButton();
     for (const element of toDoList){
         const taskCard = makeTaskInDom(element);
         taskContainer.append(taskCard);
-    }
-    setTaskListener();
+    };
+    taskContainer.append(newButton);
+    setTaskListeners(taskContainer);
 };
+
 const makeCheckBox = (id) => {
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
@@ -38,7 +54,7 @@ const makeCheckBox = (id) => {
 };
 const makeTaskInDom = (taskDetails) => {
     const mainDetails = taskDetailsForDom(taskDetails);
-    const taskDiv = createClone();
+    const taskDiv = clone.taskContainer();
     const checkBox = makeCheckBox(taskDetails['id']);
     taskDiv.append(checkBox);
     for (const key in mainDetails) {
@@ -49,10 +65,12 @@ const makeTaskInDom = (taskDetails) => {
     }
     return taskDiv;    
 };
+
 const taskDetailsForDom = (details) => {
     const {title, description, priority, date} = details;
     return {title, description, priority, date}
 };
+
 const getDetailsFromDom = (inputInfo) => {
     const infoArray = Array.from(inputInfo);
     const taskObject = infoArray.reduce((keys, currentValue) =>{
@@ -66,13 +84,4 @@ const getDetailsFromDom = (inputInfo) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-export { createTask }
+export { createTask, updateTaskList }
