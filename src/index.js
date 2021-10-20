@@ -1,6 +1,7 @@
 import './styles.css';
-import { limitDates, setAddTaskListener, setTaskListeners } from "./userinterface";
-import { updateTaskList } from "./domfunctions";
+import { limitDates } from "./userinterface";
+import { updateTaskList, updateProjectList } from "./domfunctions";
 
 updateTaskList();
 limitDates();
+updateProjectList();

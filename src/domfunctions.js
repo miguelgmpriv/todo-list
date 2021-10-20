@@ -1,18 +1,15 @@
 import { addTaskInMemory,toDoListCopy } from "./addtask";
-import { setTaskListeners } from "./userinterface";
-
-const createClone = () => {
-    const taskTemplate = document.getElementById('task-template');
-    return taskTemplate.content.firstElementChild.cloneNode(true)
-};
+import { setTaskListeners,setProjectListeners } from "./userinterface";
 
 const clone = (() => {
-    const taskTemplate = document.getElementById('task-template');
-    const taskContainer = () => taskTemplate.content.firstElementChild.cloneNode(true);
-    const newTaskButton = () => taskTemplate.content.children[1].cloneNode(true);
+    const taskTemplate = document.getElementById('task-template').content;
+    const taskContainer = () => taskTemplate.firstElementChild.cloneNode(true);
+    const newTaskButton = () => taskTemplate.querySelector('#new-task-button').cloneNode(true);
+    const newProjectButton = () => taskTemplate.querySelector('.new-project').cloneNode(true);
     return {
         newTaskButton,
         taskContainer,
+        newProjectButton,
     }
 })();
 
@@ -26,6 +23,12 @@ const match = (() => {
     };
 })();
 
+const wipeContainer = (mainNode) => {
+    while (mainNode.firstElementChild){
+        mainNode.removeChild(mainNode.firstElementChild);
+    }
+}
+
 const createTask = (domInfo) => {
     const taskDetails = getDetailsFromDom(domInfo);
     addTaskInMemory(taskDetails);
@@ -35,13 +38,22 @@ const createTask = (domInfo) => {
 const updateTaskList = () => {
     const toDoList = toDoListCopy();
     const taskContainer = document.querySelector('.task-list');
+    wipeContainer(taskContainer);
     const newButton = clone.newTaskButton();
+    taskContainer.append(newButton);
     for (const element of toDoList){
         const taskCard = makeTaskInDom(element);
         taskContainer.append(taskCard);
     };
-    taskContainer.append(newButton);
     setTaskListeners(taskContainer);
+};
+
+const updateProjectList = () => {
+    const projectDiv = document.getElementById('user-projects');
+    const projectButton = clone.newProjectButton();
+    wipeContainer(projectDiv);
+    projectDiv.append(projectButton);
+    setProjectListeners(projectDiv);
 };
 
 const makeCheckBox = (id) => {
@@ -50,8 +62,8 @@ const makeCheckBox = (id) => {
     checkBox.name = `${id}`;
     checkBox.id = `${id}`;
     return checkBox;
-
 };
+
 const makeTaskInDom = (taskDetails) => {
     const mainDetails = taskDetailsForDom(taskDetails);
     const taskDiv = clone.taskContainer();
@@ -84,4 +96,4 @@ const getDetailsFromDom = (inputInfo) => {
 }
 
 
-export { createTask, updateTaskList }
+export { createTask, updateTaskList, updateProjectList }

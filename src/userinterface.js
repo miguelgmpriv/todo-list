@@ -10,6 +10,13 @@ const addTaskHide = () => {
     addTaskForm.reset();
 }
 
+const hideForm = (event) => {
+    const containerToClose = findParentNode(event.target, 'modal-container');
+    const formToReset = findParentNode(event.target, 'modal-form');
+    toggleHidden(containerToClose);
+    formToReset.reset();
+}
+
 const toggleTaskDescription = (event) => {
     const target = event.target;
     const taskNodeList = (target.classList.contains('task') ? target.children : target.parentNode.children);
@@ -25,27 +32,36 @@ const findNode = (nodeList, taskClass) => {
         }
     }
 }
+const findParentNode = (element, taskClass) => {
+    let parent = element;
+    while (!parent.classList.contains(taskClass)){
+        parent = parent.parentNode;
+    }
+    return parent;
+}
 
 const setTaskListeners = (nodeList) => {
     const currentTasks = nodeList.querySelectorAll('.task');
     const newTaskButton = nodeList.querySelector('#new-task-button');
-    newTaskButton.addEventListener('click', openAddTaskModal)
+    newTaskButton.addEventListener('click', openModal);
     currentTasks.forEach(element => {
         element.addEventListener('click', toggleTaskDescription)
     });
 }
 
 
-const setNewProjectListener = () => {
-    const newProjectButton = document.getElementById('new-project-button');
-    newProjectButton.addEventListener('click', )
+const setProjectListeners = (element) => {
+    const newProjectButton = element.querySelector('.new-project');
+    newProjectButton.addEventListener('click', openModal)
 }
 
-const openAddTaskModal = () => {
-    toggleHidden(addTaskContainer);
-    const addTaskClose = document.querySelector('.task-close');
-    addTaskClose.addEventListener('click', addTaskHide);
-    addTaskContainer.addEventListener('submit', handleSubmit);
+const openModal = (event) => {
+    const idToOpen = event.target.value;
+    const modal = document.querySelector(`#${idToOpen}`);
+    const close = modal.querySelector('.close');
+    toggleHidden(modal);
+    modal.addEventListener('submit', handleSubmit);
+    close.addEventListener('click', hideForm);
 }
 
 const handleSubmit = (event) => {
@@ -62,4 +78,4 @@ const limitDates = () => {
     addTaskMinDate.setAttribute('min', today);
 }
 
-export { limitDates, setTaskListeners }
+export { limitDates, setTaskListeners, setProjectListeners }

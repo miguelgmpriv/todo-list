@@ -7,10 +7,17 @@
     <title>Task Helper</title>
 </head>
 <body>
-    <div class="add-task-container" id="add-task-container">
-        <form class="add-task-form" id="add-task-form">
+    <div class="modal-container" id="new-project-container">
+    <form class="new-project-form modal-form">
+        <label><input type="text" placeholder="Project Title" id="project-form-title" class="project-details" required><span class="close"></span></label>
+        <input type="text" placeholder="Project Description" id="project-form-description" class="project-details" required>
+        <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
+    </form>
+    </div>
+    <div class="add-task-container modal-container" id="add-task-container">
+        <form class="add-task-form modal-form" id="add-task-form">
             <div class="add-task-header">
-                <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label><span class="task-close"></span>
+                <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label><span class="close"></span>
             </div>
             <label><textarea placeholder="Description" rows="4" name="task-description" id="task-description"></textarea></label>
             <label><input type="date" name="task-date" id="task-date"></label>
@@ -37,17 +44,19 @@
             <button>Today</button>
             <button>Upcoming</button>
             <h2>Projects</h2>
-            <button id="new-project-button">New Project</button>
+            <div id="user-projects"></div>
         </div>
-        <div class="task-list" data-project="Inbox">
-        </div>
+
+        <div class="task-list" data-project="Inbox"></div>
     </div>
     <footer class="footer">
         <h3>Test Footer</h3>
     </footer>
     <template id="task-template">
         <div class="task"></div>
-        <button id="new-task-button">New Task</button>
+        <button id="new-task-button" value="add-task-container">New Task</button>
+        <button id="new-project-button" value="new-project-container" class="new-project">New Project</button>
+        <h2 id="current-user-project">Inbox</h2>
     </template>
 </body>
 </html>
