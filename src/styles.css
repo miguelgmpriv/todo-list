@@ -51,6 +51,34 @@ textarea{
     gap: 1rem;
     background-color: cornsilk;
 }
+.task-list{
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    padding: 3rem;
+}
+.title{
+    flex: 1;
+    padding-left: 1rem;
+}
+.description{
+    display: none;
+    order: 5;
+    flex:1 0 100%;
+    justify-content: center;
+}
+.priority{
+    padding-right: 2rem;
+}
+.task{
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .add-task-container{
     display: none;
@@ -94,4 +122,6 @@ textarea{
     background-color: hsla(120, 4%, 10%, 0.801);
     border-radius: 5px;
 }
-
+.hidden{
+    display: flex;
+}
