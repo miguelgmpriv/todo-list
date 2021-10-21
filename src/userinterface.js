@@ -1,12 +1,12 @@
-import { createTask } from './domfunctions'
+import { createTask, createProject } from './domfunctions'
 import { findNode, findParentNode, limitDates } from "./scripts/helpers";
 
 const toggleHidden = (element) => element.classList.toggle('hidden');
 
 const hideModal = (event) => {
-    const containerToClose = findParentNode(event.target, 'modal-container');
+    const containerToHide = findParentNode(event.target, 'modal-container');
     const formToReset = findParentNode(event.target, 'modal-form');
-    toggleHidden(containerToClose);
+    toggleHidden(containerToHide);
     formToReset.reset();
 }
 
@@ -25,6 +25,7 @@ const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     createTask(event.target);
+    createProject(event.target)
     hideModal(event);
 }
 

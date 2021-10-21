@@ -1,4 +1,4 @@
-import { addTaskInMemory,toDoListCopy } from "./addtask";
+import { addTaskInMemory,toDoListCopy, addProjectInMemory, projectsCopy } from "./addtask";
 import { setTaskListeners,setProjectListeners } from "./userinterface";
 
 const clone = (() => {
@@ -6,15 +6,17 @@ const clone = (() => {
     const taskContainer = () => taskTemplate.firstElementChild.cloneNode(true);
     const newTaskButton = () => taskTemplate.querySelector('#new-task-button').cloneNode(true);
     const newProjectButton = () => taskTemplate.querySelector('.new-project').cloneNode(true);
+    const userProjectButton = () => taskTemplate.querySelector('.user-projects').cloneNode(true);
     return {
         newTaskButton,
         taskContainer,
         newProjectButton,
+        userProjectButton,
     }
 })();
 
 const match = (() => {
-    const stringToMatch = /^task-/;
+    const stringToMatch = /^task-|^project-/;
     const lookFor = (attribute) => {return stringToMatch.test(attribute)};
     const removeFrom = (attribute) => {return attribute.replace(stringToMatch, '')};
     return {
@@ -35,6 +37,12 @@ const createTask = (domInfo) => {
     updateTaskList();
 };
 
+const createProject = (domInfo) => {
+    const projectDetails = getDetailsFromDom(domInfo);
+    addProjectInMemory(projectDetails);
+    updateProjectList();
+}
+
 const updateTaskList = () => {
     const toDoList = toDoListCopy();
     const taskContainer = document.querySelector('.task-list');
@@ -49,10 +57,13 @@ const updateTaskList = () => {
 };
 
 const updateProjectList = () => {
+    const projects = projectsCopy();
+    console.log(projects)
     const projectDiv = document.getElementById('user-projects');
     const projectButton = clone.newProjectButton();
     wipeContainer(projectDiv);
     projectDiv.append(projectButton);
+    makeProjectInDom(projects);
     setProjectListeners(projectDiv);
 };
 
@@ -78,10 +89,17 @@ const makeTaskInDom = (taskDetails) => {
     return taskDiv;    
 };
 
+const makeProjectInDom = (projectDetails) => {
+    for (const element of projectDetails) {
+        console.log(element);
+    }
+}
+
 const taskDetailsForDom = (details) => {
     const {title, description, priority, date} = details;
     return {title, description, priority, date}
 };
+
 
 const getDetailsFromDom = (inputInfo) => {
     const infoArray = Array.from(inputInfo);
@@ -96,4 +114,4 @@ const getDetailsFromDom = (inputInfo) => {
 }
 
 
-export { createTask, updateTaskList, updateProjectList }
+export { createTask, updateTaskList, updateProjectList, createProject }

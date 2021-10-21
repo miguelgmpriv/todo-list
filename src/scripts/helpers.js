@@ -16,8 +16,8 @@ const findParentNode = (element, taskClass) => {
     return parent;
 }
 
-const limitDates = (event) => {
-    const dateSelector = findNode(event, 'task-date');
+const limitDates = (nodeList) => {
+    const dateSelector = findNode(nodeList, 'task-date');
     if (dateSelector == null) return;
     const today = formatISO(new Date(), { representation: 'date' });
     dateSelector.setAttribute('value', today)

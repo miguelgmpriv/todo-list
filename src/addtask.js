@@ -11,15 +11,28 @@ const task = ({title, description, priority, date, project = 'Inbox'}) => {
         project,
     }
 }
-
+const project = ({title, description}) => {
+    return {
+        title,
+        description,
+    }
+}
 const toDoList = [];
 
+const projects = [];
+
 const toDoListCopy = () => toDoList;
+
+const projectsCopy = () => projects;
 
 const addTaskInMemory = (details) => {
     return toDoList.push(task(details));
 };
 
+const addProjectInMemory = (details) => {
+    return projects.push(project(details));
+}
+
 addTaskInMemory({'title':'Test','description':'Default task','priority':'Normal','date':'2020-10-20'})
 
-export { addTaskInMemory, toDoListCopy }
+export { addTaskInMemory, toDoListCopy, addProjectInMemory, projectsCopy }

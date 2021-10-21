@@ -8,9 +8,9 @@
 </head>
 <body>
     <div class="modal-container" id="new-project-container">
-    <form class="modal-form">
-        <label><input type="text" placeholder="Project Title" id="project-form-title" class="project-details" required><span class="close"></span></label>
-        <input type="text" placeholder="Project Description" id="project-form-description" class="project-details" required>
+    <form class="modal-form" id="add-project-form">
+        <label><input type="text" placeholder="Project Title" id="project-title" class="project-details" required><span class="close"></span></label>
+        <input type="text" placeholder="Project Description" id="project-description" class="project-details" required>
         <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
     </form>
     </div>
@@ -57,6 +57,7 @@
         <button id="new-task-button" value="add-task-container">New Task</button>
         <button id="new-project-button" value="new-project-container" class="new-project">New Project</button>
         <h2 id="current-user-project">Inbox</h2>
+        <button data-project="" class="user-projects"></button>
     </template>
 </body>
 </html>
