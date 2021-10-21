@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="modal-container" id="new-project-container">
-    <form class="new-project-form modal-form">
+    <form class="modal-form">
         <label><input type="text" placeholder="Project Title" id="project-form-title" class="project-details" required><span class="close"></span></label>
         <input type="text" placeholder="Project Description" id="project-form-description" class="project-details" required>
         <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
@@ -20,7 +20,7 @@
                 <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label><span class="close"></span>
             </div>
             <label><textarea placeholder="Description" rows="4" name="task-description" id="task-description"></textarea></label>
-            <label><input type="date" name="task-date" id="task-date"></label>
+            <label><input type="date" name="task-date" id="task-date" class="task-date"></label>
             <label>
                 <select name="task-priority" id="task-priority">
                     <option value="High">High Priority</option>

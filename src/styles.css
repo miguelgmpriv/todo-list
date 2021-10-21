@@ -118,7 +118,6 @@ textarea{
     background-color:  rgb(239, 239, 247);
 }
 .modal-form,
-.new-project-form,
 .add-task-form{
     box-shadow:2px 4px 16px rgba(0, 0, 0, 0.315);
     display: flex;
