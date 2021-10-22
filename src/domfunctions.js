@@ -1,5 +1,6 @@
 import { addTaskInMemory,toDoListCopy, addProjectInMemory, projectsCopy } from "./addtask";
 import { setTaskListeners,setProjectListeners } from "./userinterface";
+import { taskList } from "./list";
 
 const clone = (() => {
     const taskTemplate = document.getElementById('task-template').content;
@@ -33,6 +34,10 @@ const wipeContainer = (mainNode) => {
 
 const createTask = (domInfo) => {
     const taskDetails = getDetailsFromDom(domInfo);
+    console.log(taskDetails);
+    const test = taskList();
+    test.addToTasks(taskDetails)
+    console.log(test.getCopy());
     addTaskInMemory(taskDetails);
     updateTaskList();
 };

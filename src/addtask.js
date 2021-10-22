@@ -20,7 +20,11 @@ const project = ({title, description}) => {
 const toDoList = [];
 
 const projects = [];
-
+/* const toDoList = (() => {
+    const list = [];
+    const getCopy = () => list;
+    const addTask = (details) => list.push(task(details))
+})() */
 const toDoListCopy = () => toDoList;
 
 const projectsCopy = () => projects;
