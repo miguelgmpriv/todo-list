@@ -1,6 +1,7 @@
 import { addTaskInMemory,toDoListCopy, addProjectInMemory, projectsCopy } from "./addtask";
 import { setTaskListeners,setProjectListeners } from "./userinterface";
-import { taskList } from "./list";
+import { toDoList } from "./scripts/list";
+import { match, wipeContainer} from "./scripts/helpers";
 
 const clone = (() => {
     const taskTemplate = document.getElementById('task-template').content;
@@ -16,28 +17,9 @@ const clone = (() => {
     }
 })();
 
-const match = (() => {
-    const stringToMatch = /^task-|^project-/;
-    const lookFor = (attribute) => {return stringToMatch.test(attribute)};
-    const removeFrom = (attribute) => {return attribute.replace(stringToMatch, '')};
-    return {
-        lookFor,
-        removeFrom,
-    };
-})();
-
-const wipeContainer = (mainNode) => {
-    while (mainNode.firstElementChild){
-        mainNode.removeChild(mainNode.firstElementChild);
-    }
-}
-
 const createTask = (domInfo) => {
     const taskDetails = getDetailsFromDom(domInfo);
     console.log(taskDetails);
-    const test = taskList();
-    test.addToTasks(taskDetails)
-    console.log(test.getCopy());
     addTaskInMemory(taskDetails);
     updateTaskList();
 };
@@ -63,7 +45,6 @@ const updateTaskList = () => {
 
 const updateProjectList = () => {
     const projects = projectsCopy();
-    console.log(projects)
     const projectDiv = document.getElementById('user-projects');
     const projectButton = clone.newProjectButton();
     wipeContainer(projectDiv);

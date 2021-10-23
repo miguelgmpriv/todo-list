@@ -1,5 +1,21 @@
 import { formatISO } from "date-fns";
 
+const match = (() => {
+    const stringToMatch = /^task-|^project-/;
+    const lookFor = (attribute) => {return stringToMatch.test(attribute)};
+    const removeFrom = (attribute) => {return attribute.replace(stringToMatch, '')};
+    return {
+        lookFor,
+        removeFrom,
+    };
+})();
+
+const wipeContainer = (mainNode) => {
+    while (mainNode.firstElementChild){
+        mainNode.removeChild(mainNode.firstElementChild);
+    }
+}
+
 const findNode = (nodeList, taskClass) => {
     for (const node in nodeList) {
         if (Object.hasOwnProperty.call(nodeList, node)) {
@@ -8,6 +24,7 @@ const findNode = (nodeList, taskClass) => {
         }
     }
 }
+
 const findParentNode = (element, taskClass) => {
     let parent = element;
     while (!parent.classList.contains(taskClass)){
@@ -24,4 +41,4 @@ const limitDates = (nodeList) => {
     dateSelector.setAttribute('min', today);
 }
 
-export { findParentNode, findNode, limitDates }
+export { findParentNode, findNode, limitDates, match, wipeContainer }
