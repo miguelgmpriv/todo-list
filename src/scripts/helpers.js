@@ -25,6 +25,13 @@ const findNode = (nodeList, taskClass) => {
     }
 }
 
+const findEntry = (listArray , valueToFind) => {
+    for (const [key] of Object.entries(listArray)){
+        if (listArray[key] === valueToFind) return true;
+    }
+    return false;
+}
+
 const findParentNode = (element, taskClass) => {
     let parent = element;
     while (!parent.classList.contains(taskClass)){
@@ -53,4 +60,4 @@ const limitDates = (nodeList) => {
     dateSelector.setAttribute('min', today);
 }
 
-export { findParentNode, findNode, limitDates, wipeContainer, getDetailsFromDom }
+export { findParentNode, findNode, limitDates, wipeContainer, getDetailsFromDom, findEntry }

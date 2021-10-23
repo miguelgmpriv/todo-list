@@ -1,6 +1,6 @@
 import { setTaskListeners,setProjectListeners } from "./userinterface";
 import {  } from "./scripts/list";
-import { wipeContainer,getDetailsFromDom} from "./scripts/helpers";
+import { wipeContainer } from "./scripts/helpers";
 import { toDoList } from "./scripts/list";
 
 const clone = (() => {
@@ -24,7 +24,9 @@ const populateDom = () => {
 
 const updateTaskList = () => {
     const currentList = toDoList.getCopyTasks();
+    const test = toDoList.getCopyProjects();
     console.log(currentList);
+    console.log(test);
     const taskContainer = document.querySelector('.task-list');
     wipeContainer(taskContainer);
     const newButton = clone.newTaskButton();

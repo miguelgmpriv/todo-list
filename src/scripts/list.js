@@ -1,21 +1,30 @@
 import { v4 as uuidv4 } from "uuid";
+import { findEntry } from "./helpers";
 
 const planner = () => {
     const tasks = [];
-    const projects = [];
+    const projects = [{title: 'Inbox', description: ''}];
     const _newTask = ({title, description, date, priority, project = `Inbox`}) => {
+        if (project === '') project = 'Inbox';
         const id = uuidv4();
         return{ id, title, description, date, priority, project, }
     };
 
-    const _newProject = ({title, description}) => {
+    const _newProject = ({title, description = ''}) => {
         return {
             title,
             description,
         }
     }
-
+    const _addProjectFromTask = (title, description = '') => {
+        return {
+            title,
+            description,
+        }
+    }
     const _addToTasks = (details) => {
+        const { project } = details;
+        if (!findEntry(projects, project)) projects.push(_addProjectFromTask(project));
         return tasks.push(_newTask(details));
     };
 
@@ -29,6 +38,8 @@ const planner = () => {
         }
         return _addToTasks(domInfo);
     };
+
+    
     const getCopyTasks = () => tasks;
     const getCopyProjects = () => projects;
 
