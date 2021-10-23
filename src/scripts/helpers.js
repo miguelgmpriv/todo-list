@@ -33,6 +33,18 @@ const findParentNode = (element, taskClass) => {
     return parent;
 }
 
+const getDetailsFromDom = (inputInfo) => {
+    const infoArray = Array.from(inputInfo);
+    const taskObject = infoArray.reduce((keys, currentValue) =>{
+        const id = currentValue.id;
+        const value = currentValue.value;
+        const found = match.lookFor(id);
+        if(found) keys[match.removeFrom(id)] = value;
+        return keys;
+    }, {});
+    return taskObject;
+}
+
 const limitDates = (nodeList) => {
     const dateSelector = findNode(nodeList, 'task-date');
     if (dateSelector == null) return;
@@ -41,4 +53,4 @@ const limitDates = (nodeList) => {
     dateSelector.setAttribute('min', today);
 }
 
-export { findParentNode, findNode, limitDates, match, wipeContainer }
+export { findParentNode, findNode, limitDates, wipeContainer, getDetailsFromDom }

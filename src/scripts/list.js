@@ -1,21 +1,44 @@
 import { v4 as uuidv4 } from "uuid";
 
-const taskList = () => {
+const planner = () => {
     const tasks = [];
-    const _newTask = ({title, description, priority, date, project = 'Inbox'}) => {
+    const projects = [];
+    const _newTask = ({title, description, date, priority, project = `Inbox`}) => {
         const id = uuidv4();
-        return{ id, title, description, priority, date, project }
+        return{ id, title, description, date, priority, project, }
     };
-    const addToTasks = (details) => {
+
+    const _newProject = ({title, description}) => {
+        return {
+            title,
+            description,
+        }
+    }
+
+    const _addToTasks = (details) => {
         return tasks.push(_newTask(details));
     };
-    const getCopy = () => {
-        return tasks;
+
+    const _addToProjects = (details) =>{
+        return projects.push(_newProject(details));
     };
+
+    const storeInfo = (domInfo, size) => {
+        if (size === 1){
+            return _addToProjects(domInfo);
+        }
+        return _addToTasks(domInfo);
+    };
+    const getCopyTasks = () => tasks;
+    const getCopyProjects = () => projects;
+
     return {
-        getCopy,
-        addToTasks,
+        getCopyTasks,
+        getCopyProjects,
+        storeInfo,
     }
 }
 
-export { taskList }
+const toDoList = planner();
+
+export { toDoList }

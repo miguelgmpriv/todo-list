@@ -1,5 +1,6 @@
-import { createTask, createProject } from './domfunctions'
-import { findNode, findParentNode, limitDates } from "./scripts/helpers";
+import { populateDom } from './domfunctions'
+import { findNode, findParentNode, limitDates,getDetailsFromDom } from "./scripts/helpers";
+import { toDoList } from "./scripts/list";
 
 const toggleHidden = (element) => element.classList.toggle('hidden');
 
@@ -24,9 +25,11 @@ const openModal = (event) => {
 const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    createTask(event.target);
-    createProject(event.target)
+    const domInfo = getDetailsFromDom(event.target)
+    const size = Object.keys(domInfo).length;
     hideModal(event);
+    toDoList.storeInfo(domInfo, size);
+    populateDom();
 }
 
 const toggleTaskDescription = (event) => {
@@ -40,6 +43,7 @@ const setTaskListeners = (nodeList) => {
     const currentTasks = nodeList.querySelectorAll('.task');
     const newTaskButton = nodeList.querySelector('#new-task-button');
     newTaskButton.addEventListener('click', openModal);
+    if (currentTasks == null) return;
     currentTasks.forEach(element => {
         element.addEventListener('click', toggleTaskDescription)
     });

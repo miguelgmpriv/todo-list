@@ -1,7 +1,7 @@
-import { addTaskInMemory,toDoListCopy, addProjectInMemory, projectsCopy } from "./addtask";
 import { setTaskListeners,setProjectListeners } from "./userinterface";
+import {  } from "./scripts/list";
+import { wipeContainer,getDetailsFromDom} from "./scripts/helpers";
 import { toDoList } from "./scripts/list";
-import { match, wipeContainer} from "./scripts/helpers";
 
 const clone = (() => {
     const taskTemplate = document.getElementById('task-template').content;
@@ -17,34 +17,29 @@ const clone = (() => {
     }
 })();
 
-const createTask = (domInfo) => {
-    const taskDetails = getDetailsFromDom(domInfo);
-    console.log(taskDetails);
-    addTaskInMemory(taskDetails);
+const populateDom = () => {
     updateTaskList();
-};
-
-const createProject = (domInfo) => {
-    const projectDetails = getDetailsFromDom(domInfo);
-    addProjectInMemory(projectDetails);
     updateProjectList();
 }
 
 const updateTaskList = () => {
-    const toDoList = toDoListCopy();
+    const currentList = toDoList.getCopyTasks();
+    console.log(currentList);
     const taskContainer = document.querySelector('.task-list');
     wipeContainer(taskContainer);
     const newButton = clone.newTaskButton();
     taskContainer.append(newButton);
-    for (const element of toDoList){
-        const taskCard = makeTaskInDom(element);
-        taskContainer.append(taskCard);
+    if (currentList.length !== 0){
+        for (const element of currentList){
+            const taskCard = makeTaskInDom(element);
+            taskContainer.append(taskCard);
+        };
     };
     setTaskListeners(taskContainer);
 };
 
 const updateProjectList = () => {
-    const projects = projectsCopy();
+    const projects = toDoList.getCopyProjects();
     const projectDiv = document.getElementById('user-projects');
     const projectButton = clone.newProjectButton();
     wipeContainer(projectDiv);
@@ -87,17 +82,5 @@ const taskDetailsForDom = (details) => {
 };
 
 
-const getDetailsFromDom = (inputInfo) => {
-    const infoArray = Array.from(inputInfo);
-    const taskObject = infoArray.reduce((keys, currentValue) =>{
-        const id = currentValue.id;
-        const value = currentValue.value;
-        const found = match.lookFor(id);
-        if(found) keys[match.removeFrom(id)] = value;
-        return keys;
-    }, {});
-    return taskObject;
-}
 
-
-export { createTask, updateTaskList, updateProjectList, createProject }
+export { updateTaskList, updateProjectList, populateDom }
