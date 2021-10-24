@@ -7,44 +7,57 @@
     <title>Task Helper</title>
 <script defer src="main.js"></script></head>
 <body>
-    <div class="add-task-container" id="add-task-container">
-        <form class="add-task-form" id="add-task-form">
-            <label><input type="text" name="task-title" id="task-title" required></label>
-            <label><textarea rows="4" name="task-description" id="task-description"></textarea></label>
-            <label><input type="date" name="task-date" id="task-date"></label>
+    <div class="modal-container" id="new-project-container">
+    <form class="modal-form" id="add-project-form">
+        <label><input type="text" placeholder="Project Title" id="project-title" class="project-details" required><span class="close"></span></label>
+        <input type="text" placeholder="Project Description" id="project-description" class="project-details" required>
+        <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
+    </form>
+    </div>
+    <div class="add-task-container modal-container" id="add-task-container">
+        <form class="add-task-form modal-form" id="add-task-form" name="add-task-form">
+            <div class="add-task-header">
+                <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label><span class="close"></span>
+            </div>
+            <label><textarea placeholder="Description" rows="4" name="task-description" id="task-description"></textarea></label>
+            <label><input type="date" name="task-date" id="task-date" class="task-date"></label>
             <label>
                 <select name="task-priority" id="task-priority">
-                    <option value="high">High Priority</option>
-                    <option value="normal" selected>Normal Priority</option>
-                    <option value="low">Low Priority</option>
+                    <option value="High">High Priority</option>
+                    <option value="Normal" selected>Normal Priority</option>
+                    <option value="Low">Low Priority</option>
                 </select>
             </label>
-            <button type="button" value="cancel">Cancel</button>
-            <input type="submit" id="add-task-button" value="Add Task">
+            <input list="project" placeholder="Inbox" id="task-project" type="text">
+            <datalist id="project">
+                <option value="Inbox">
+            </datalist>
+            <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
         </form>
     </div>
-        <header class="header">
-            <h1>Get-To-It</h1>
-        </header>
-        <div class="content">
-            <div class="sidebar">
-                <button>Inbox</button>
-                <button>Today</button>
-                <button>Upcoming</button>
-                <h2>Projects</h2>
-                <button id="new-project-button">New Project</button>
-            </div>
-            <div class="task-list">
-                <button id="new-task-button">New Task</button>
-            </div>
+    <header class="header">
+        <h1>Get-To-It</h1>
+    </header>
+    <div class="content">
+        <div class="sidebar">
+            <button>Inbox</button>
+            <button>Today</button>
+            <button>Upcoming</button>
+            <h2>Projects</h2>
+            <div id="user-projects"></div>
         </div>
-        <footer class="footer">
-            <h3>Test Footer</h3>
-        </footer>
-    <template id="task-template">
-        <div class="task">
 
-        </div>
+        <div class="task-list" data-project="Inbox"></div>
+    </div>
+    <footer class="footer">
+        <h3>Test Footer</h3>
+    </footer>
+    <template id="task-template">
+        <div class="task"></div>
+        <button id="new-task-button" value="add-task-container">New Task</button>
+        <button id="new-project-button" value="new-project-container" class="new-project">New Project</button>
+        <h2 id="current-user-project">Inbox</h2>
+        <button data-project="" class="user-projects"></button>
     </template>
 </body>
 </html>
