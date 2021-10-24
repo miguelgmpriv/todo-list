@@ -26,10 +26,15 @@ const findNode = (nodeList, taskClass) => {
 }
 
 const findEntry = (listArray , valueToFind) => {
-    for (const [key] of Object.entries(listArray)){
+    const result = listArray.filter((element)=>{
+        console.log(element);
+        console.log(element.title);
+        return element.title === valueToFind;
+    })
+/*     for (const [key] of Object.entries(listArray)){
+        console.log(listArray[key]);
         if (listArray[key] === valueToFind) return true;
-    }
-    return false;
+    } */
 }
 
 const findParentNode = (element, taskClass) => {

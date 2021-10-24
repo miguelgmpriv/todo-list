@@ -24,7 +24,7 @@ const planner = () => {
     }
     const _addToTasks = (details) => {
         const { project } = details;
-        if (!findEntry(projects, project)) projects.push(_addProjectFromTask(project));
+        if (!_findProjectTitle(project)) projects.push(_addProjectFromTask(project));
         return tasks.push(_newTask(details));
     };
 
@@ -39,6 +39,12 @@ const planner = () => {
         return _addToTasks(domInfo);
     };
 
+    const _findProjectTitle = (projectTitle) => {
+        for (const element of projects) {
+            if (element.title === projectTitle) return true
+        }
+        return false;
+    }
     
     const getCopyTasks = () => tasks;
     const getCopyProjects = () => projects;
