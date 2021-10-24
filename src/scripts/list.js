@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 const planner = () => {
     const tasks = [];
     const projects = [{title: 'Inbox', description: 'You can edit this description'}];
-    const currentProject = 'Inbox';
+    let currentProject = 'Inbox';
     const _newTask = ({title, description, date, priority, project = `Inbox`}) => {
         if (project === '') project = 'Inbox';
         const id = uuidv4();
@@ -17,11 +17,18 @@ const planner = () => {
         }
     }
     const _addProjectFromTask = (title, description = '') => {
+        if (title == '') title = 'Inbox';
         return {
             title,
             description,
         }
     }
+    const _findProjectTitle = (projectTitle) => {
+        for (const element of projects) {
+            if (element.title === projectTitle) return true
+        }
+        return false;
+    };
     const _addToTasks = (details) => {
         const { project } = details;
         if (!_findProjectTitle(project)) projects.push(_addProjectFromTask(project));
@@ -39,13 +46,14 @@ const planner = () => {
         return _addToTasks(domInfo);
     };
 
-    const _findProjectTitle = (projectTitle) => {
-        for (const element of projects) {
-            if (element.title === projectTitle) return true
-        }
-        return false;
-    };
-
+    const getUserProjects = () => projects.filter((element) => {return (element.title != 'Inbox')})   
+    const getAllProjectTitles = () => {
+        const result = projects.reduce((arr, property) =>{
+            arr.push(property.title);
+            return arr;
+        },[])
+        return result
+    }
     const filterTasksByProject = (projectTitle) => {
         const result = tasks.filter((element) => {
             return (element.project === projectTitle);
@@ -71,6 +79,8 @@ const planner = () => {
         getCurrentProject,
         setCurrentProject,
         getProjectDetails,
+        getUserProjects,
+        getAllProjectTitles,
     }
 }
 

@@ -1,4 +1,4 @@
-import { setTaskListeners,setProjectListeners } from "./userinterface";
+import { setTaskListeners, setProjectListeners, setTopSidebarListeners } from "./userinterface";
 import {  } from "./scripts/list";
 import { wipeContainer } from "./scripts/helpers";
 import { toDoList } from "./scripts/list";
@@ -20,6 +20,7 @@ const clone = (() => {
 const populateDom = (currentProject) => {
     updateTaskList(currentProject);
     updateProjectList(currentProject);
+    setTopSidebarListeners();
 }
 
 const updateTaskList = (currentProject) => {
@@ -46,15 +47,26 @@ const editCurrentProjectDiv = (currentProject) => {
 
 const updateProjectList = (currentProject) => {
     editCurrentProjectDiv(currentProject);
-    const projects = toDoList.getCopyProjects();
+    const projects = toDoList.getUserProjects();
     const sidebarDiv = document.getElementById('user-projects');
     const projectButton = clone.newProjectButton();
     wipeContainer(sidebarDiv);
     sidebarDiv.append(projectButton);
-    makeItemInDom(projects, sidebarDiv);
+    makeProjectInDom(projects, sidebarDiv);
     setProjectListeners(sidebarDiv);
 };
-
+const makeDatalist = (form) => {
+    const inputContainer = form.querySelector('#task-project');
+    const dataList = form.querySelector('#project');
+    if (inputContainer === null) return;
+    wipeContainer(dataList);
+    const currentProjectList = toDoList.getAllProjectTitles();
+    currentProjectList.forEach((element) =>{
+        const option = document.createElement('option');
+        option.value = element;
+        dataList.append(option)
+    });
+};
 const makeCheckBox = (id) => {
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
@@ -78,7 +90,7 @@ const makeTaskInDom = (taskDetails) => {
 };
 
 
-const makeItemInDom = (details, mainContainer) => {
+const makeProjectInDom = (details, mainContainer) => {
     for (const key in details) {
         const container = document.createElement('button');
         container.dataset.project = details[key].title;
@@ -93,4 +105,4 @@ const taskDetailsForDom = (details) => {
 
 
 
-export { updateTaskList, updateProjectList, populateDom }
+export { updateTaskList, updateProjectList, populateDom, makeDatalist }

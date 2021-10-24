@@ -1,4 +1,4 @@
-import { populateDom } from './domfunctions'
+import { makeDatalist, populateDom } from './domfunctions'
 import { findNode, findParentNode, limitDates, getDetailsFromDom } from "./scripts/helpers";
 import { toDoList } from "./scripts/list";
 
@@ -16,13 +16,14 @@ const openModal = (event) => {
     const modal = document.querySelector(`#${idToOpen}`);
     const form = modal.querySelector('.modal-form');
     const close = modal.querySelector('.close');
+    makeDatalist(form);
     toggleHidden(modal);
     limitDates(form);
-    modal.addEventListener('submit', handleSubmit);
+    modal.addEventListener('submit', handleFormSubmit);
     close.addEventListener('click', hideModal);
 }
 
-const handleSubmit = (event) => {
+const handleFormSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     const domInfo = getDetailsFromDom(event.target)
@@ -58,11 +59,17 @@ const setProjectListeners = (element) => {
     });
 }
 
+const setTopSidebarListeners = () => {
+    const inbox = document.getElementById('Inbox');
+    inbox.addEventListener('click', handleProjectChange);
+}
+
 const handleProjectChange = (event) => {
     const project = event.target.dataset.project;
+    toDoList.setCurrentProject(project);
     populateDom(project);
 
 }
 
 
-export { setTaskListeners, setProjectListeners }
+export { setTaskListeners, setProjectListeners, setTopSidebarListeners }
