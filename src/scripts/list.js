@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { findEntry } from "./helpers";
 
 const planner = () => {
     const tasks = [];
-    const projects = [{title: 'Inbox', description: ''}];
+    const projects = [{title: 'Inbox', description: 'You can edit this description'}];
+    const currentProject = 'Inbox';
     const _newTask = ({title, description, date, priority, project = `Inbox`}) => {
         if (project === '') project = 'Inbox';
         const id = uuidv4();
@@ -33,7 +33,7 @@ const planner = () => {
     };
 
     const storeInfo = (domInfo, size) => {
-        if (size === 1){
+        if (size === 2){
             return _addToProjects(domInfo);
         }
         return _addToTasks(domInfo);
@@ -44,8 +44,22 @@ const planner = () => {
             if (element.title === projectTitle) return true
         }
         return false;
+    };
+
+    const filterTasksByProject = (projectTitle) => {
+        const result = tasks.filter((element) => {
+            return (element.project === projectTitle);
+        });
+        return result
+    };
+
+    const setCurrentProject = (projectTitle = 'Inbox') => {
+        return currentProject = projectTitle;
+    };
+    const getProjectDetails = (projectTitle = 'Inbox') => {
+        return projects.find(element => element.title == projectTitle)
     }
-    
+    const getCurrentProject = () => currentProject;
     const getCopyTasks = () => tasks;
     const getCopyProjects = () => projects;
 
@@ -53,6 +67,10 @@ const planner = () => {
         getCopyTasks,
         getCopyProjects,
         storeInfo,
+        filterTasksByProject,
+        getCurrentProject,
+        setCurrentProject,
+        getProjectDetails,
     }
 }
 

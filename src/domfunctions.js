@@ -17,16 +17,13 @@ const clone = (() => {
     }
 })();
 
-const populateDom = () => {
-    updateTaskList();
-    updateProjectList();
+const populateDom = (currentProject) => {
+    updateTaskList(currentProject);
+    updateProjectList(currentProject);
 }
 
-const updateTaskList = () => {
-    const currentList = toDoList.getCopyTasks();
-    const test = toDoList.getCopyProjects();
-    console.log(currentList);
-    console.log(test);
+const updateTaskList = (currentProject) => {
+    const currentList = toDoList.filterTasksByProject(currentProject);
     const taskContainer = document.querySelector('.task-list');
     wipeContainer(taskContainer);
     const newButton = clone.newTaskButton();
@@ -40,14 +37,22 @@ const updateTaskList = () => {
     setTaskListeners(taskContainer);
 };
 
-const updateProjectList = () => {
+const editCurrentProjectDiv = (currentProject) => {
+    const project = toDoList.getProjectDetails(currentProject);
+    const projectDiv = document.getElementById('current-user-project');
+    projectDiv.firstElementChild.textContent = project.title;
+    projectDiv.lastElementChild.textContent = project.description;
+}
+
+const updateProjectList = (currentProject) => {
+    editCurrentProjectDiv(currentProject);
     const projects = toDoList.getCopyProjects();
-    const projectDiv = document.getElementById('user-projects');
+    const sidebarDiv = document.getElementById('user-projects');
     const projectButton = clone.newProjectButton();
-    wipeContainer(projectDiv);
-    projectDiv.append(projectButton);
-    makeProjectInDom(projects);
-    setProjectListeners(projectDiv);
+    wipeContainer(sidebarDiv);
+    sidebarDiv.append(projectButton);
+    makeItemInDom(projects, sidebarDiv);
+    setProjectListeners(sidebarDiv);
 };
 
 const makeCheckBox = (id) => {
@@ -59,25 +64,28 @@ const makeCheckBox = (id) => {
 };
 
 const makeTaskInDom = (taskDetails) => {
-    const mainDetails = taskDetailsForDom(taskDetails);
+    const detailsForDom = taskDetailsForDom(taskDetails);
     const taskDiv = clone.taskContainer();
     const checkBox = makeCheckBox(taskDetails['id']);
     taskDiv.append(checkBox);
-    for (const key in mainDetails) {
+    for (const key in detailsForDom) {
         const container = document.createElement('p');
         container.classList.add(key);
-        container.textContent = mainDetails[key];
+        container.textContent = detailsForDom[key];
         taskDiv.append(container);
     }
     return taskDiv;    
 };
 
-const makeProjectInDom = (projectDetails) => {
-    for (const element of projectDetails) {
-        console.log(element);
-    }
-}
 
+const makeItemInDom = (details, mainContainer) => {
+    for (const key in details) {
+        const container = document.createElement('button');
+        container.dataset.project = details[key].title;
+        container.textContent = details[key].title;
+        mainContainer.append(container);
+    };
+}
 const taskDetailsForDom = (details) => {
     const {title, description, priority, date} = details;
     return {title, description, priority, date}

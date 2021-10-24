@@ -1,5 +1,5 @@
 import { populateDom } from './domfunctions'
-import { findNode, findParentNode, limitDates,getDetailsFromDom } from "./scripts/helpers";
+import { findNode, findParentNode, limitDates, getDetailsFromDom } from "./scripts/helpers";
 import { toDoList } from "./scripts/list";
 
 const toggleHidden = (element) => element.classList.toggle('hidden');
@@ -26,10 +26,10 @@ const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     const domInfo = getDetailsFromDom(event.target)
-    const size = Object.keys(domInfo).length;
+    const formInfoSize = Object.keys(domInfo).length;
     hideModal(event);
-    toDoList.storeInfo(domInfo, size);
-    populateDom();
+    toDoList.storeInfo(domInfo, formInfoSize);
+    populateDom(toDoList.getCurrentProject());
 }
 
 const toggleTaskDescription = (event) => {
@@ -51,7 +51,18 @@ const setTaskListeners = (nodeList) => {
 
 const setProjectListeners = (element) => {
     const newProjectButton = element.querySelector('.new-project');
-    newProjectButton.addEventListener('click', openModal)
+    const allProjects = element.querySelectorAll('[data-project]');
+    newProjectButton.addEventListener('click', openModal);
+    allProjects.forEach(element => {
+        element.addEventListener('click', handleProjectChange);
+    });
 }
+
+const handleProjectChange = (event) => {
+    const project = event.target.dataset.project;
+    populateDom(project);
+
+}
+
 
 export { setTaskListeners, setProjectListeners }

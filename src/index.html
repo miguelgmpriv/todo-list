@@ -46,8 +46,15 @@
             <h2>Projects</h2>
             <div id="user-projects"></div>
         </div>
-
-        <div class="task-list" data-project="Inbox"></div>
+        <div class="task-container">
+            <div data-project="Inbox" id="current-user-project">
+                <h2 id="current-project-title">Inbox</h2>
+                <h4 id="current-project-description">You can edit this description</h4>
+            </div>
+            <div class="task-list">
+        
+            </div>
+        </div>
     </div>
     <footer class="footer">
         <h3>Test Footer</h3>
@@ -56,8 +63,8 @@
         <div class="task"></div>
         <button id="new-task-button" value="add-task-container">New Task</button>
         <button id="new-project-button" value="new-project-container" class="new-project">New Project</button>
-        <h2 id="current-user-project">Inbox</h2>
         <button data-project="" class="user-projects"></button>
+
     </template>
 </body>
 </html>

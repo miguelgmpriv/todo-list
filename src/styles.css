@@ -55,6 +55,7 @@ textarea{
     background-color: cornsilk;
 }
 
+.task-container,
 .task-list{
     font-size: 1.5rem;
     display: flex;
@@ -63,9 +64,7 @@ textarea{
     gap: 1rem;
     padding: 3rem;
 }
-#current-user-project{
-    margin: 1rem;
-}
+
 .title{
     flex: 1;
     padding-left: 1rem;
