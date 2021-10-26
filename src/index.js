@@ -1,5 +1,5 @@
 import './styles.css';
-import { updateTaskList, updateProjectList } from "./domfunctions";
+import { updateTaskList, updateProjectList, populateDom } from "./domfunctions";
+import 'material-icons/iconfont/material-icons.css';
 
-updateTaskList();
-updateProjectList();
+populateDom('Inbox');
