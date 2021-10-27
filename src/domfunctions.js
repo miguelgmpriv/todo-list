@@ -31,11 +31,21 @@ const makeCheckBox = (id) => {
     checkBox.classList.add('check-project');
     return checkBox;
 };
-
+const makeIcon = (name, taskId) => {
+    const icon = document.createElement('span');
+    icon.textContent = name;
+    icon.dataset.id = taskId;
+    icon.dataset.type = name;
+    icon.classList.add('material-icons-outlined');
+    return icon;
+}
 const makeTaskInDom = (taskDetails) => {
+    const taskId = taskDetails['id'];
     const detailsForDom = taskDetailsForDom(taskDetails);
     const taskDiv = clone.taskContainer();
-    const checkBox = makeCheckBox(taskDetails['id']);
+    const editIcon = makeIcon('edit_note', taskId);
+    const trashIcon = makeIcon('delete', taskId);
+    const checkBox = makeCheckBox(taskId);
     taskDiv.append(checkBox);
     for (const key in detailsForDom) {
         const container = document.createElement('p');
@@ -43,10 +53,7 @@ const makeTaskInDom = (taskDetails) => {
         container.textContent = detailsForDom[key];
         taskDiv.append(container);
     }
-    const trashIcon = document.createElement('span');
-    trashIcon.textContent = 'delete';
-    trashIcon.classList.add('material-icons-outlined');
-    trashIcon.dataset.id = taskDetails['id'];
+    taskDiv.append(editIcon);
     taskDiv.append(trashIcon);
     return taskDiv;    
 };

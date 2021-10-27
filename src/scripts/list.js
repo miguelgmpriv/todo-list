@@ -24,8 +24,9 @@ const planner = () => {
         }
     }
     const _addToTasks = (details) => {
-        const { project } = details;
-        if (!project == '') projects.push(_addProjectFromTask(project));
+        let { project } = details;
+        if (project === '') project = 'Inbox';
+        if (findProjectTitle(project) == false) projects.push(_addProjectFromTask(project));
         return tasks.push(_newTask(details));
     };
 

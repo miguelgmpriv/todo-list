@@ -54,40 +54,36 @@ const toggleCheckBox = (event) =>{
     console.log(event);
 
 }
+const editTask = (event) =>{
+    console.log(event);
+};
+const deleteTask = (event) => {
+    const idToRemove = event.target.dataset.id
+    toDoList.deleteTask(idToRemove);
+    console.log(toDoList.getCopyTasks())
+    populateDom(toDoList.getCurrentProject());
+}
+const handleTaskEvents = (event) => {
+    const target = event.target;
+    if (target.classList.contains('check-project')){
+        return toggleCheckBox(event);
+    } else if (target.dataset.type === 'delete'){
+        return deleteTask(event);
+    } else if (target.dataset.type === 'edit_note'){
+        return editTask(event);
+    } else {
+        return toggleTaskDescription(event);
+    };
+};
+
 const setTaskListeners = (nodeList) => {
     const currentTasks = nodeList.querySelectorAll('.task');
     const newTaskButton = nodeList.querySelector('#new-task-button');
     newTaskButton.addEventListener('click', openModal);
     if (currentTasks == null) return;
     currentTasks.forEach(element => {
-        element.addEventListener('click', (e) => {
-            const target = e.target.classList;
-            return (target.contains('check-project')) ? toggleCheckBox(e) : 
-                (target.contains('material-icons-outlined')) ? deleteTask(e) : toggleTaskDescription(e);
-        });
+        element.addEventListener('click', handleTaskEvents)
     });
-};
-
-const deleteTask = (event) => {
-    const idToRemove = event.target.dataset.id
-    toDoList.deleteTask(idToRemove);
-    console.log(toDoList.getCopyTasks())
-    populateDom(toDoList.getCurrentProject());
-
-}
-
-const setProjectListeners = (element) => {
-    const newProjectButton = element.querySelector('.new-project');
-    const allProjects = element.querySelectorAll('[data-project]');
-    newProjectButton.addEventListener('click', openModal);
-    allProjects.forEach(element => {
-        element.addEventListener('click', handleProjectChange);
-    });
-};
-
-const setTopSidebarListeners = () => {
-    const inbox = document.getElementById('Inbox');
-    inbox.addEventListener('click', handleProjectChange);
 };
 
 const handleProjectChange = (event) => {
@@ -97,5 +93,19 @@ const handleProjectChange = (event) => {
 
 };
 
+const setProjectListeners = (element) => {
+    const newProjectButton = element.querySelector('.new-project');
+    const allProjects = element.querySelectorAll('[data-project]');
+    newProjectButton.addEventListener('click', openModal);
+    if (allProjects == null) return;
+    allProjects.forEach(element => {
+        element.addEventListener('click', handleProjectChange);
+    });
+};
+
+const setTopSidebarListeners = () => {
+    const inbox = document.getElementById('Inbox');
+    inbox.addEventListener('click', handleProjectChange);
+};
 
 export { setTaskListeners, setProjectListeners, setTopSidebarListeners }
