@@ -67,6 +67,10 @@ const planner = () => {
     const getProjectDetails = (projectTitle = 'Inbox') => {
         return projects.find(element => element.title == projectTitle)
     }
+    const getCopyOfTask = (idToFind) => {
+        const taskId = _findTaskIndexById(idToFind);
+        return tasks[taskId];
+    }
     const getCurrentProject = () => currentProject;
     const getCopyTasks = () => tasks;
     const getCopyProjects = () => projects;
@@ -83,6 +87,7 @@ const planner = () => {
         getAllProjectTitles,
         findProjectTitle,
         deleteTask,
+        getCopyOfTask,
     }
 }
 

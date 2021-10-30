@@ -1,7 +1,7 @@
 import { formatISO } from "date-fns";
 
 const match = (() => {
-    const stringToMatch = /^task-|^project-/;
+    const stringToMatch = /^task-|^project-|^edit-/;
     const lookFor = (attribute) => {return stringToMatch.test(attribute)};
     const removeFrom = (attribute) => {return attribute.replace(stringToMatch, '')};
     return {

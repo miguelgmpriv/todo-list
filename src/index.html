@@ -29,11 +29,32 @@
                     <option value="Low">Low Priority</option>
                 </select>
             </label>
-            <input list="project" placeholder="Inbox" id="task-project" type="text">
-            <datalist id="project">
+            <input list="project" placeholder="Inbox" data-modal="date" id="task-project" type="text">
+            <datalist id="project" class="datalist">
                 <option value="Inbox">
             </datalist>
             <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
+        </form>
+    </div>
+    <div class="edit-task-container modal-container" id="edit-task-container">
+        <form class="edit-task-form modal-form" id="edit-task-form" name="edit-task-form">
+            <div class="edit-task-header">
+                <label><input placeholder="Title" type="text" name="edit-title" id="edit-title" disabled required></label><span class="close"></span>
+            </div>
+            <label><textarea placeholder="Description" rows="4" name="edit-description" id="edit-description"></textarea></label>
+            <label><input type="date" name="edit-date" id="edit-date" class="task-date"></label>
+            <label>
+                <select name="edit-priority" id="edit-priority">
+                    <option value="High">High Priority</option>
+                    <option value="Normal" selected>Normal Priority</option>
+                    <option value="Low">Low Priority</option>
+                </select>
+            </label>
+            <input list="edit-project" placeholder="Inbox" data-modal="date" id="edit-project" type="text">
+            <datalist id="edit-project" class="datalist">
+                <option value="Inbox">
+            </datalist>
+            <input type="submit" id="edit-task-button" class="edit-task-button" value="Edit Task">
         </form>
     </div>
     <header class="header">
@@ -62,8 +83,8 @@
     </footer>
     <template id="task-template">
         <div class="task"></div>
-        <button id="new-task-button" value="add-task-container">New Task</button>
-        <button id="new-project-button" value="new-project-container" class="new-project">New Project</button>
+        <button id="new-task-button" data-target="add-task-container">New Task</button>
+        <button id="new-project-button" data-target="new-project-container" class="new-project">New Project</button>
         <button data-project="" class="user-projects"></button>
 
     </template>

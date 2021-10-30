@@ -12,16 +12,31 @@ const hideModal = (event) => {
 };
 
 const openModal = (event) => {
-    const idToOpen = event.target.value;
+    const idToOpen = event.target.dataset.target;
+    const idOfTask = event.target.dataset.id;
     const modal = document.querySelector(`#${idToOpen}`);
     const form = modal.querySelector('.modal-form');
     const close = modal.querySelector('.close');
     makeDatalist(form);
     toggleHidden(modal);
     limitDates(form);
+    if (idToOpen === 'edit-task-container') editTaskModal(idOfTask, form)
     modal.addEventListener('submit', handleFormSubmit);
     close.addEventListener('click', hideModal);
 };
+
+const editTaskModal = (idToFind, form) => {
+    const title = form.querySelector('#edit-title');
+    const priority = form.querySelector('#edit-priority');
+    const date = form.querySelector('#edit-date');
+    const description = form.querySelector('#edit-description');
+    const task = toDoList.getCopyOfTask(idToFind);
+    form.dataset.id = idToFind;
+    title.value = task.title;
+    priority.value = task.priority;
+    date.value = task.date;
+    description.value = task.description;
+}
 
 const validateProjectForm = (projectForm) => {
     const title = projectForm.querySelector('#project-title');
@@ -36,6 +51,8 @@ const handleFormSubmit = (event) => {
     const form = event.target;
     if (form.id === 'add-project-form') {
         if (!validateProjectForm(form)) return;
+    } else if (form.id === 'edit-task-form'){
+        editTask(event);
     }
     const domInfo = getDetailsFromDom(form)
     const formInfoSize = Object.keys(domInfo).length;
@@ -55,7 +72,9 @@ const toggleCheckBox = (event) =>{
 
 }
 const editTask = (event) =>{
-    console.log(event);
+    const idToEdit = event.target.dataset.id;
+    const domInfo = getDetailsFromDom(event.target);
+    console.log(domInfo);
 };
 const deleteTask = (event) => {
     const idToRemove = event.target.dataset.id
@@ -70,7 +89,7 @@ const handleTaskEvents = (event) => {
     } else if (target.dataset.type === 'delete'){
         return deleteTask(event);
     } else if (target.dataset.type === 'edit_note'){
-        return editTask(event);
+        return openModal(event);
     } else {
         return toggleTaskDescription(event);
     };

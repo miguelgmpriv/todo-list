@@ -36,6 +36,7 @@ const makeIcon = (name, taskId) => {
     icon.textContent = name;
     icon.dataset.id = taskId;
     icon.dataset.type = name;
+    icon.dataset.target = 'edit-task-container'
     icon.classList.add('material-icons-outlined');
     return icon;
 }
@@ -101,8 +102,8 @@ const updateProjectList = (currentProject) => {
 };
 
 const makeDatalist = (form) => {
-    const inputContainer = form.querySelector('#task-project');
-    const dataList = form.querySelector('#project');
+    const inputContainer = form.querySelector("[data-modal='date']");
+    const dataList = form.querySelector('.datalist');
     if (inputContainer === null) return;
     wipeContainer(dataList);
     const currentProjectList = toDoList.getAllProjectTitles();
