@@ -17,10 +17,10 @@ const openModal = (event) => {
     const modal = document.querySelector(`#${idToOpen}`);
     const form = modal.querySelector('.modal-form');
     const close = modal.querySelector('.close');
-    makeDatalist(form);
-    toggleHidden(modal);
     limitDates(form);
-    if (idToOpen === 'edit-task-container') editTaskModal(idOfTask, form)
+    makeDatalist(form);
+    if (idToOpen === 'edit-task-container') editTaskModal(idOfTask, form);
+    toggleHidden(modal);
     modal.addEventListener('submit', handleFormSubmit);
     close.addEventListener('click', hideModal);
 };
@@ -49,15 +49,16 @@ const handleFormSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     const form = event.target;
+    const domInfo = getDetailsFromDom(form)
     if (form.id === 'add-project-form') {
         if (!validateProjectForm(form)) return;
+        toDoList.storeInfo(domInfo);
     } else if (form.id === 'edit-task-form'){
         editTask(event);
+    } else if (form.id === 'add-task-form'){
+        toDoList.storeInfo(domInfo);
     }
-    const domInfo = getDetailsFromDom(form)
-    const formInfoSize = Object.keys(domInfo).length;
     hideModal(event);
-    toDoList.storeInfo(domInfo, formInfoSize);
     populateDom(toDoList.getCurrentProject());
 };
 
@@ -74,8 +75,9 @@ const toggleCheckBox = (event) =>{
 const editTask = (event) =>{
     const idToEdit = event.target.dataset.id;
     const domInfo = getDetailsFromDom(event.target);
-    console.log(domInfo);
+    toDoList.editTask(idToEdit, domInfo);
 };
+
 const deleteTask = (event) => {
     const idToRemove = event.target.dataset.id
     toDoList.deleteTask(idToRemove);

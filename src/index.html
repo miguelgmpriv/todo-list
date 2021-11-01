@@ -8,18 +8,27 @@
     <title>Task Helper</title>
 </head>
 <body>
+
     <div class="modal-container" id="new-project-container">
-    <form class="modal-form" id="add-project-form">
-        <label><input type="text" placeholder="Project Title" id="project-title" class="project-details" required><span class="close"></span></label>
-        <input type="text" placeholder="Project Description" id="project-description" class="project-details" required>
-        <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
-    </form>
-    </div>
-    <div class="add-task-container modal-container" id="add-task-container">
-        <form class="add-task-form modal-form" id="add-task-form" name="add-task-form">
-            <div class="add-task-header">
-                <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label><span class="close"></span>
+        <form class="modal-form" id="add-project-form">
+            <div class="modal-header">
+                <h3>Add Project</h3><span class="material-icons-outlined close">close</span>
             </div>
+            <label><input type="text" placeholder="Project Title" id="project-title" class="project-details" required></label>
+            <input type="text" placeholder="Project Description" id="project-description" class="project-details" required>
+            <div class="modal-footer">
+                <button type="button" class="close-button close">Close</button>
+                <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-container" id="add-task-container">
+        <form class="modal-form" id="add-task-form" name="add-task-form">
+            <div class="modal-header">
+                <h3>Add Task</h3><span class="material-icons-outlined close">close</span>
+            </div>
+            <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label>
             <label><textarea placeholder="Description" rows="4" name="task-description" id="task-description"></textarea></label>
             <label><input type="date" name="task-date" id="task-date" class="task-date"></label>
             <label>
@@ -33,14 +42,19 @@
             <datalist id="project" class="datalist">
                 <option value="Inbox">
             </datalist>
-            <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
+            <div class="modal-footer">
+                <button type="button" class="close-button close">Close</button>
+                <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
+            </div>    
         </form>
     </div>
-    <div class="edit-task-container modal-container" id="edit-task-container">
-        <form class="edit-task-form modal-form" id="edit-task-form" name="edit-task-form">
-            <div class="edit-task-header">
-                <label><input placeholder="Title" type="text" name="edit-title" id="edit-title" disabled required></label><span class="close"></span>
-            </div>
+
+    <div class="modal-container" id="edit-task-container">
+        <form class="modal-form" id="edit-task-form" name="edit-task-form">
+            <div class="modal-header">
+                <h3>Edit Task</h3><span class="material-icons-outlined close">close</span>
+            </div>     
+            <label><input placeholder="Title" type="text" name="edit-title" id="edit-title" disabled required></label>
             <label><textarea placeholder="Description" rows="4" name="edit-description" id="edit-description"></textarea></label>
             <label><input type="date" name="edit-date" id="edit-date" class="task-date"></label>
             <label>
@@ -54,9 +68,13 @@
             <datalist id="edit-project" class="datalist">
                 <option value="Inbox">
             </datalist>
-            <input type="submit" id="edit-task-button" class="edit-task-button" value="Edit Task">
+            <div class="modal-footer">
+                <button type="button" class="close-button close">Close</button>
+                <input type="submit" id="edit-button" class="edit-task-button" value="Edit Task">
+            </div>
         </form>
     </div>
+
     <header class="header">
         <h1>Get-To-It</h1>
     </header>

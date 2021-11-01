@@ -34,7 +34,8 @@ const planner = () => {
         return projects.push(_newProject(details));
     };
     const _findTaskIndexById = (idToFind) => { return tasks.findIndex(element => element.id == idToFind)};
-    const storeInfo = (domInfo, size) => {
+    const storeInfo = (domInfo) => {
+        const size = Object.keys(domInfo).length;
         if (size === 2){
             return _addToProjects(domInfo);
         }
@@ -71,6 +72,14 @@ const planner = () => {
         const taskId = _findTaskIndexById(idToFind);
         return tasks[taskId];
     }
+    const editTask = (taskId, details) => {
+        let taskToEdit = getCopyOfTask(taskId);
+        taskToEdit.description = details.description;
+        taskToEdit.date = details.date;
+        taskToEdit.priority = details.priority;
+        taskToEdit.project = (details.project == '') ? 'Inbox' : details.project;
+
+    }
     const getCurrentProject = () => currentProject;
     const getCopyTasks = () => tasks;
     const getCopyProjects = () => projects;
@@ -88,6 +97,7 @@ const planner = () => {
         findProjectTitle,
         deleteTask,
         getCopyOfTask,
+        editTask,
     }
 }
 
