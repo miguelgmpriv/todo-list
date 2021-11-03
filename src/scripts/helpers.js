@@ -1,4 +1,5 @@
 import { formatISO } from "date-fns";
+import { add } from "date-fns";
 
 const match = (() => {
     const stringToMatch = /^task-|^project-|^edit-/;
@@ -52,5 +53,9 @@ const limitDates = (nodeList) => {
     dateSelector.setAttribute('value', today)
     dateSelector.setAttribute('min', today);
 }
-
-export { findParentNode, findNode, limitDates, wipeContainer, getDetailsFromDom }
+const daysToFind = (numberOfDays) => {
+    const dateNow = new Date();
+    const result = add(dateNow, { days: numberOfDays});
+    console.log(result)
+}
+export { findParentNode, findNode, limitDates, wipeContainer, getDetailsFromDom,daysToFind }

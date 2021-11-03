@@ -1,5 +1,4 @@
 import { setTaskListeners, setProjectListeners, setTopSidebarListeners } from "./userinterface";
-import {  } from "./scripts/list";
 import { wipeContainer } from "./scripts/helpers";
 import { toDoList } from "./scripts/list";
 
@@ -36,7 +35,6 @@ const makeIcon = (name, taskId) => {
     icon.textContent = name;
     icon.dataset.id = taskId;
     icon.dataset.type = name;
-    icon.dataset.target = 'edit-task-container'
     icon.classList.add('material-icons-outlined');
     return icon;
 }
@@ -78,14 +76,16 @@ const editCurrentProjectDiv = (currentProject) => {
     const project = toDoList.getProjectDetails(currentProject);
     const projectDiv = document.getElementById('current-user-project');
     projectDiv.firstElementChild.textContent = project.title;
-    projectDiv.lastElementChild.textContent = project.description;
 };
 
 const makeProjectInDom = (details, mainContainer) => {
     for (const key in details) {
-        const container = document.createElement('button');
-        container.dataset.project = details[key].title;
+        const trashIcon = makeIcon('delete', details[key].title);
+        const container = document.createElement('li');
+        container.dataset.id = details[key].title;
         container.textContent = details[key].title;
+        container.classList.add('user-projects');
+        container.append(trashIcon);
         mainContainer.append(container);
     };
 };
@@ -96,21 +96,21 @@ const updateProjectList = (currentProject) => {
     const sidebarDiv = document.getElementById('user-projects');
     const projectButton = clone.newProjectButton();
     wipeContainer(sidebarDiv);
-    sidebarDiv.append(projectButton);
     makeProjectInDom(projects, sidebarDiv);
+    sidebarDiv.append(projectButton);
     setProjectListeners(sidebarDiv);
 };
 
-const makeDatalist = (form) => {
-    const inputContainer = form.querySelector("[data-modal='date']");
-    const dataList = form.querySelector('.datalist');
-    if (inputContainer === null) return;
-    wipeContainer(dataList);
+const makeSelect = (form) => {
+    const select = form.querySelector("[data-modal='select']");
+    if (select == null) return;
+    wipeContainer(select);
     const currentProjectList = toDoList.getAllProjectTitles();
     currentProjectList.forEach((element) =>{
         const option = document.createElement('option');
         option.value = element;
-        dataList.append(option)
+        option.textContent = element;
+        select.append(option)
     });
 };
 
@@ -121,4 +121,4 @@ const taskDetailsForDom = (details) => {
 
 
 
-export { updateTaskList, updateProjectList, populateDom, makeDatalist }
+export { updateTaskList, updateProjectList, populateDom, makeSelect }

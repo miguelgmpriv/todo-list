@@ -1,5 +1,5 @@
-import { makeDatalist, populateDom } from './domfunctions'
-import { findNode, findParentNode, limitDates, getDetailsFromDom } from "./scripts/helpers";
+import { makeSelect, populateDom } from './domfunctions'
+import { findNode, findParentNode, limitDates, getDetailsFromDom, daysToFind } from "./scripts/helpers";
 import { toDoList } from "./scripts/list";
 
 const toggleHidden = (element) => element.classList.toggle('hidden');
@@ -9,20 +9,6 @@ const hideModal = (event) => {
     const formToReset = findParentNode(event.target, 'modal-form');
     toggleHidden(containerToHide);
     formToReset.reset();
-};
-
-const openModal = (event) => {
-    const idToOpen = event.target.dataset.target;
-    const idOfTask = event.target.dataset.id;
-    const modal = document.querySelector(`#${idToOpen}`);
-    const form = modal.querySelector('.modal-form');
-    const close = modal.querySelector('.close');
-    limitDates(form);
-    makeDatalist(form);
-    if (idToOpen === 'edit-task-container') editTaskModal(idOfTask, form);
-    toggleHidden(modal);
-    modal.addEventListener('submit', handleFormSubmit);
-    close.addEventListener('click', hideModal);
 };
 
 const editTaskModal = (idToFind, form) => {
@@ -37,6 +23,22 @@ const editTaskModal = (idToFind, form) => {
     date.value = task.date;
     description.value = task.description;
 }
+
+const openModal = (event) => {
+    const idToOpen = event.target.dataset.target;
+    const idOfTask = event.target.dataset.id;
+    const modal = document.querySelector(`#${idToOpen}`);
+    const form = modal.querySelector('.modal-form');
+    const close = modal.querySelectorAll('.close');
+    modal.addEventListener('submit', handleFormSubmit);
+    close.forEach(element => { element.addEventListener('click', hideModal) }); 
+    limitDates(form);
+    makeSelect(form);
+    if (idToOpen === 'edit-task-container') editTaskModal(idOfTask, form);
+    toggleHidden(modal);
+};
+
+
 
 const validateProjectForm = (projectForm) => {
     const title = projectForm.querySelector('#project-title');
@@ -107,26 +109,37 @@ const setTaskListeners = (nodeList) => {
     });
 };
 
-const handleProjectChange = (event) => {
-    const project = event.target.dataset.project;
+const handleProjectClick = (event) => {
+    const project = event.target.dataset.id;
+    const type = event.target.dataset.type;
+    if (type === 'delete') return deleteProject(project);
     toDoList.setCurrentProject(project);
     populateDom(project);
-
 };
+
+const deleteProject = (project) => {
+    const result = window.confirm('This will delete all tasks related to this project. Click OK to continue.');
+    if (result) {
+        toDoList.deleteProject(project);
+        console.log(toDoList.getCopyTasks());
+        console.log(toDoList.getCopyProjects());
+        populateDom('Inbox')
+    }
+}
 
 const setProjectListeners = (element) => {
     const newProjectButton = element.querySelector('.new-project');
-    const allProjects = element.querySelectorAll('[data-project]');
+    const allProjects = element.querySelectorAll('.user-projects');
     newProjectButton.addEventListener('click', openModal);
     if (allProjects == null) return;
     allProjects.forEach(element => {
-        element.addEventListener('click', handleProjectChange);
+        element.addEventListener('click', handleProjectClick);
     });
 };
 
 const setTopSidebarListeners = () => {
     const inbox = document.getElementById('Inbox');
-    inbox.addEventListener('click', handleProjectChange);
+    inbox.addEventListener('click', handleProjectClick);
 };
 
 export { setTaskListeners, setProjectListeners, setTopSidebarListeners }

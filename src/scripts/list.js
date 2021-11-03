@@ -2,31 +2,16 @@ import { v4 as uuidv4 } from "uuid";
 
 const planner = () => {
     const tasks = [];
-    const projects = [{title: 'Inbox', description: 'You can edit this description'}];
+    const projects = [{title: 'Inbox'}];
     let currentProject = 'Inbox';
     
-    const _newTask = ({title, description, date, priority, project = `Inbox`}) => {
-        if (project === '') project = 'Inbox';
-        const id = uuidv4();
+    const _newTask = ({title, description, date, priority, project = `Inbox`, id = uuidv4()}) => {
         return{ id, title, description, date, priority, project, }
     };
-
-    const _newProject = ({title, description = ''}) => {
-        return {
-            title,
-            description,
-        }
-    }
-    const _addProjectFromTask = (title, description = '') => {
-        return {
-            title,
-            description,
-        }
+    const _newProject = ({title}) => {
+        return { title }
     }
     const _addToTasks = (details) => {
-        let { project } = details;
-        if (project === '') project = 'Inbox';
-        if (findProjectTitle(project) == false) projects.push(_addProjectFromTask(project));
         return tasks.push(_newTask(details));
     };
 
@@ -34,9 +19,10 @@ const planner = () => {
         return projects.push(_newProject(details));
     };
     const _findTaskIndexById = (idToFind) => { return tasks.findIndex(element => element.id == idToFind)};
+    const _findProjectIndexByTitle = (titleToFind) => { return projects.findIndex(element => element.title == titleToFind)};
     const storeInfo = (domInfo) => {
         const size = Object.keys(domInfo).length;
-        if (size === 2){
+        if (size === 1){
             return _addToProjects(domInfo);
         }
         return _addToTasks(domInfo);
@@ -68,10 +54,7 @@ const planner = () => {
     const getProjectDetails = (projectTitle = 'Inbox') => {
         return projects.find(element => element.title == projectTitle)
     }
-    const getCopyOfTask = (idToFind) => {
-        const taskId = _findTaskIndexById(idToFind);
-        return tasks[taskId];
-    }
+
     const editTask = (taskId, details) => {
         let taskToEdit = getCopyOfTask(taskId);
         taskToEdit.description = details.description;
@@ -79,6 +62,15 @@ const planner = () => {
         taskToEdit.priority = details.priority;
         taskToEdit.project = (details.project == '') ? 'Inbox' : details.project;
 
+    }
+    const getCopyOfTask = (idToFind) => {
+        const taskId = _findTaskIndexById(idToFind);
+        return tasks[taskId];
+    }
+    const deleteProject = (projectToDelete) => {
+        const projectTasks = filterTasksByProject(projectToDelete)
+        projectTasks.forEach(element => { deleteTask(element.id) });
+        projects.splice(_findProjectIndexByTitle(projectToDelete), 1)
     }
     const getCurrentProject = () => currentProject;
     const getCopyTasks = () => tasks;
@@ -96,6 +88,7 @@ const planner = () => {
         getAllProjectTitles,
         findProjectTitle,
         deleteTask,
+        deleteProject,
         getCopyOfTask,
         editTask,
     }
