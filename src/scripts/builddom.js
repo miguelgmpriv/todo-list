@@ -1,5 +1,6 @@
 import { wipeContainer } from "./helpers";
 import { toDoList } from "./list";
+import { currentProject } from "./userinterface";
 
 const clone = (() => {
     const taskTemplate = document.getElementById('task-template').content;
@@ -15,11 +16,12 @@ const clone = (() => {
     }
 })();
 
-const makeCheckBox = (id) => {
+const makeCheckBox = (id, checkedState) => {
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
     checkBox.name = `${id}`;
-    checkBox.id = `${id}`;
+    checkBox.dataset.id = `${id}`;
+    checkBox.checked = checkedState;
     checkBox.classList.add('check-project');
     return checkBox;
 };
@@ -33,11 +35,12 @@ const makeIcon = (name, taskId) => {
 }
 const makeTaskInDom = (taskDetails) => {
     const taskId = taskDetails['id'];
+    const checkedState = taskDetails['checked'];
     const detailsForDom = taskDetailsForDom(taskDetails);
     const taskDiv = clone.taskContainer();
     const editIcon = makeIcon('edit_note', taskId);
     const trashIcon = makeIcon('delete', taskId);
-    const checkBox = makeCheckBox(taskId);
+    const checkBox = makeCheckBox(taskId, checkedState);
     taskDiv.append(checkBox);
     for (const key in detailsForDom) {
         const container = document.createElement('p');
@@ -46,6 +49,7 @@ const makeTaskInDom = (taskDetails) => {
         taskDiv.append(container);
     }
     editIcon.dataset.target = 'edit-task-container';
+    if (checkedState) taskDiv.classList.toggle('strike');
     taskDiv.append(editIcon);
     taskDiv.append(trashIcon);
     return taskDiv;    
@@ -71,6 +75,7 @@ const makeSelect = (form) => {
     currentProjectList.forEach((element) =>{
         const option = document.createElement('option');
         option.value = element;
+        if (option.value === currentProject) option.selected = true;
         option.textContent = element;
         select.append(option)
     });
@@ -83,4 +88,4 @@ const taskDetailsForDom = (details) => {
 
 
 
-export { makeSelect, clone, makeTaskInDom, makeProjectInDom}
+export { makeSelect, clone, makeTaskInDom, makeProjectInDom, currentProject}

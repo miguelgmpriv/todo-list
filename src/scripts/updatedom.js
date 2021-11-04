@@ -1,4 +1,4 @@
-import { setTaskListeners, setProjectListeners, setTopSidebarListeners } from "./userinterface";
+import { setTaskListeners, setProjectListeners, setTopSidebarListeners, currentProject } from "./userinterface";
 import { makeTaskInDom, makeProjectInDom, clone } from "./builddom";
 import { wipeContainer } from "./helpers";
 import { toDoList } from "./list";
@@ -32,7 +32,7 @@ const editCurrentProjectDiv = (textToDisplay) => {
     projectDiv.firstElementChild.textContent = textToDisplay;
 };
 
-const populateDom = (valueToUse, taskList = toDoList.filterTasksByProject(valueToUse)) => {
+const populateDom = (valueToUse, taskList = toDoList.getTasksByProject(valueToUse)) => {
     editCurrentProjectDiv(valueToUse);
     updateTaskList(taskList);
     updateProjectList();

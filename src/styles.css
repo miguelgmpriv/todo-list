@@ -166,3 +166,7 @@ span{
 .hidden{
     display: flex;
 }
+.strike{
+    text-decoration: line-through;
+    color: lightgrey;
+}

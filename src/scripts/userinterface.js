@@ -48,6 +48,12 @@ const validateProjectForm = (projectForm) => {
     return false;
 };
 
+const editTask = (event) =>{
+    const idToEdit = event.target.dataset.id;
+    const domInfo = getDetailsFromDom(event.target);
+    toDoList.editTask(idToEdit, domInfo);
+};
+
 const handleFormSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -74,14 +80,12 @@ const toggleTaskDescription = (event) => {
 };
 
 const toggleCheckBox = (event) =>{
-    console.log(event);
-
-};
-
-const editTask = (event) =>{
-    const idToEdit = event.target.dataset.id;
-    const domInfo = getDetailsFromDom(event.target);
-    toDoList.editTask(idToEdit, domInfo);
+    const checkedState = event.target.checked;
+    const taskId = event.target.dataset.id;
+    const taskDiv = findParentNode(event.target, 'task');
+    taskDiv.classList.toggle('strike');
+    toDoList.editTaskState(taskId, checkedState)
+    console.log(toDoList.getCopyTasks());
 };
 
 const handleTaskEvents = (event) => {
@@ -126,7 +130,10 @@ const setProjectListeners = (element) => {
 const handleTopSidebarClick = (event) =>{
     const targetId = event.target.dataset.id;
     const taskList = toDoList.getCopyTasks();
-    if (targetId === 'Inbox') return populateDom('Inbox');
+    if (targetId === 'Inbox'){
+        currentProject = 'Inbox';
+        populateDom(currentProject);
+    };
     if (targetId === 'Today'){
         const filteredList = filterByDays(0, taskList);
         return populateDom(targetId, filteredList);
@@ -142,4 +149,4 @@ const setTopSidebarListeners = () => {
     links.forEach(element => { element.addEventListener('click', handleTopSidebarClick) });
 };
 
-export { setTaskListeners, setProjectListeners, setTopSidebarListeners }
+export { setTaskListeners, setProjectListeners, setTopSidebarListeners, currentProject}
