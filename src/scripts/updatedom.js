@@ -1,4 +1,4 @@
-import { setTaskListeners, setProjectListeners, setTopSidebarListeners, currentProject } from "./userinterface";
+import { setTaskListeners, setProjectListeners, setTopSidebarListeners, currentProject, setMenuListener } from "./userinterface";
 import { makeTaskInDom, makeProjectInDom, clone } from "./builddom";
 import { wipeContainer } from "./helpers";
 import { toDoList } from "./list";

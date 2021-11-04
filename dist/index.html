@@ -4,21 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Task Helper</title>
 <script defer src="main.js"></script></head>
 <body>
+
     <div class="modal-container" id="new-project-container">
-    <form class="modal-form" id="add-project-form">
-        <label><input type="text" placeholder="Project Title" id="project-title" class="project-details" required><span class="close"></span></label>
-        <input type="text" placeholder="Project Description" id="project-description" class="project-details" required>
-        <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
-    </form>
-    </div>
-    <div class="add-task-container modal-container" id="add-task-container">
-        <form class="add-task-form modal-form" id="add-task-form" name="add-task-form">
-            <div class="add-task-header">
-                <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label><span class="close"></span>
+        <form class="modal-form" id="add-project-form">
+            <div class="modal-header">
+                <h3>Add Project</h3><span class="material-icons-outlined close">close</span>
             </div>
+            <label><input type="text" placeholder="Project Title" id="project-title" class="project-details" required></label>
+            <div class="modal-footer">
+                <button type="button" class="close-button close">Close</button>
+                <input type="submit" id="add-new-project" class="add-project-button" value="Add Project">
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-container" id="add-task-container">
+        <form class="modal-form" id="add-task-form" name="add-task-form">
+            <div class="modal-header">
+                <h3>Add Task</h3><span class="material-icons-outlined close">close</span>
+            </div>
+            <label><input placeholder="Title" type="text" name="task-title" id="task-title" required></label>
             <label><textarea placeholder="Description" rows="4" name="task-description" id="task-description"></textarea></label>
             <label><input type="date" name="task-date" id="task-date" class="task-date"></label>
             <label>
@@ -28,36 +37,79 @@
                     <option value="Low">Low Priority</option>
                 </select>
             </label>
-            <input list="project" placeholder="Inbox" id="task-project" type="text">
-            <datalist id="project">
-                <option value="Inbox">
-            </datalist>
-            <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
+            <label>
+                <select id="task-project" data-modal="select"></select>
+            </label>
+            <div class="modal-footer">
+                <button type="button" class="close-button close">Close</button>
+                <input type="submit" id="add-task-button" class="add-task-button" value="Add Task">
+            </div>    
         </form>
     </div>
+
+    <div class="modal-container" id="edit-task-container">
+        <form class="modal-form" id="edit-task-form" name="edit-task-form">
+            <div class="modal-header">
+                <h3>Edit Task</h3><span class="material-icons-outlined close">close</span>
+            </div>     
+            <label><input placeholder="Title" type="text" name="edit-title" id="edit-title" disabled required></label>
+            <label><textarea placeholder="Description" rows="4" name="edit-description" id="edit-description"></textarea></label>
+            <label><input type="date" name="edit-date" id="edit-date" class="task-date"></label>
+            <label>
+                <select name="edit-priority" id="edit-priority">
+                    <option value="High">High Priority</option>
+                    <option value="Normal" selected>Normal Priority</option>
+                    <option value="Low">Low Priority</option>
+                </select>
+            </label>
+            <label>
+                <select id="edit-project" data-modal="select"></select>
+            </label>
+            <div class="modal-footer">
+                <button type="button" class="close-button close">Close</button>
+                <input type="submit" id="edit-button" class="edit-task-button" value="Edit Task">
+            </div>
+        </form>
+    </div>
+
     <header class="header">
         <h1>Get-To-It</h1>
     </header>
+
     <div class="content">
         <div class="sidebar">
-            <button>Inbox</button>
-            <button>Today</button>
-            <button>Upcoming</button>
+            <ul>
+                <li data-top-sidebar="Inbox" data-id="Inbox" ><span data-id="Inbox" class="material-icons-outlined">inbox</span>Inbox</li>
+                <li data-top-sidebar="Today" data-id="Today"><span data-id="Today" class="material-icons-outlined">today</span>Today</li>
+                <li data-top-sidebar="Upcoming" data-id="Upcoming"><span data-id="Upcoming" class="material-icons-outlined">upcoming</span>Upcoming</li>
+            </ul>
             <h2>Projects</h2>
-            <div id="user-projects"></div>
+            <ul id="user-projects"></ul>
         </div>
 
-        <div class="task-list" data-project="Inbox"></div>
+        <div class="task-container">
+
+            <div id="current-user-project">
+                <h2 id="current-project-title">Inbox</h2>
+            </div>
+            
+            <div class="task-list">
+        
+            </div>
+
+        </div>
     </div>
+
     <footer class="footer">
-        <h3>Test Footer</h3>
+        <h3><a href="https://github.com/miguelgmpriv/todo-list">Made by Miguel</a></h3>
     </footer>
+    
     <template id="task-template">
         <div class="task"></div>
-        <button id="new-task-button" value="add-task-container">New Task</button>
-        <button id="new-project-button" value="new-project-container" class="new-project">New Project</button>
-        <h2 id="current-user-project">Inbox</h2>
+        <button id="new-task-button" data-target="add-task-container">New Task</button>
+        <li id="new-project-button" data-target="new-project-container" class="new-project">New Project</li>
         <button data-project="" class="user-projects"></button>
+
     </template>
 </body>
 </html>

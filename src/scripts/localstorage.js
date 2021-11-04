@@ -14,10 +14,21 @@ const pullFromStorage = (planner) => {
 
 const checkStorage = (planner) => {
     if (!localStorage.getItem('localTasksList')){      
-        storeToStorage(planner);
+        defaultTaskList(planner);
+        storeToStorage(planner);    
     } else {
         pullFromStorage(planner);
     };
+};
+
+const defaultTaskList = (planner) => {
+    const taskList = [
+        {title: 'Feed the cat!', project: 'Inbox', description:'Cat only likes fancy feast', date: '2021-11-04', priority:'High'},
+        {title: 'Click the task to see description', project: 'Inbox', description:'Here it is!', date: '2021-11-04', priority:'Low'},
+        {title: 'Checking the task marks it as completed', project:'Inbox', description:'This is a completed task', date: '2021-11-04', priority: 'Normal', checked: true}
+    ]
+    for (const element of taskList) { planner.storeInfo(element)}
+    return planner;
 };
 
 export { storeToStorage, pullFromStorage, checkStorage}
