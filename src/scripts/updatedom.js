@@ -2,6 +2,7 @@ import { setTaskListeners, setProjectListeners, setTopSidebarListeners, currentP
 import { makeTaskInDom, makeProjectInDom, clone } from "./builddom";
 import { wipeContainer } from "./helpers";
 import { toDoList } from "./list";
+import { storeToStorage } from "./localstorage";
 
 const updateTaskList = (currentList) => {
     const taskContainer = document.querySelector('.task-list');
@@ -43,14 +44,17 @@ const deleteTask = (event) => {
     const idToRemove = event.target.dataset.id
     toDoList.deleteTask(idToRemove);
     populateDom(currentProject);
+    storeToStorage(toDoList);
 };
 
 const deleteProject = (project) => {
     const result = window.confirm('This will delete all tasks related to this project. Click OK to continue.');
     if (result) {
         toDoList.deleteProject(project);
+        storeToStorage(toDoList);
         populateDom('Inbox');
     };
 };
+
 
 export { populateDom, deleteTask, deleteProject }

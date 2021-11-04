@@ -2,6 +2,7 @@ import { makeSelect } from './builddom'
 import { populateDom, deleteTask, deleteProject } from "./updatedom";
 import { findNode, findParentNode, limitDates, getDetailsFromDom, filterByDays } from "./helpers";
 import { toDoList } from "./list";
+import { storeToStorage } from './localstorage';
 
 let currentProject = 'Inbox';
 
@@ -44,7 +45,7 @@ const openModal = (event) => {
 const validateProjectForm = (projectForm) => {
     const title = projectForm.querySelector('#project-title');
     if (!toDoList.findProjectTitle(title.value)) return true;
-    alert('No good');
+    alert('Project already in planner!');
     return false;
 };
 
@@ -70,6 +71,7 @@ const handleFormSubmit = (event) => {
     }
     hideModal(event);
     populateDom(currentProject);
+    storeToStorage(toDoList);
 };
 
 const toggleTaskDescription = (event) => {
@@ -85,7 +87,7 @@ const toggleCheckBox = (event) =>{
     const taskDiv = findParentNode(event.target, 'task');
     taskDiv.classList.toggle('strike');
     toDoList.editTaskState(taskId, checkedState)
-    console.log(toDoList.getCopyTasks());
+    storeToStorage(toDoList);
 };
 
 const handleTaskEvents = (event) => {

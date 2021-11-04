@@ -76,6 +76,8 @@ const planner = () => {
 
     const getCopyTasks = () => tasks;
     
+    const getCopyProjects = () => projects;
+
     const getTasksByProject = (projectTitle) => {
         const result = tasks.filter((element) => {
             return (element.project === projectTitle);
@@ -88,6 +90,7 @@ const planner = () => {
     return {
         storeInfo,
         getCopyTasks,
+        getCopyProjects,
         getTasksByProject,
         getUserProjects,
         getAllProjectTitles,
@@ -102,4 +105,4 @@ const planner = () => {
 
 const toDoList = planner();
 
-export { toDoList }
+export { toDoList, planner }
