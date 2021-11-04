@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 
 const planner = () => {
+
     const tasks = [];
     const projects = [{title: 'Inbox'}];
-    let currentProject = 'Inbox';
     
     const _newTask = ({title, description, date, priority, project = `Inbox`, id = uuidv4()}) => {
         return{ id, title, description, date, priority, project, }
@@ -47,14 +47,6 @@ const planner = () => {
         });
         return result
     };
-
-    const setCurrentProject = (projectTitle = 'Inbox') => {
-        return currentProject = projectTitle;
-    };
-    const getProjectDetails = (projectTitle = 'Inbox') => {
-        return projects.find(element => element.title == projectTitle)
-    }
-
     const editTask = (taskId, details) => {
         let taskToEdit = getCopyOfTask(taskId);
         taskToEdit.description = details.description;
@@ -72,7 +64,6 @@ const planner = () => {
         projectTasks.forEach(element => { deleteTask(element.id) });
         projects.splice(_findProjectIndexByTitle(projectToDelete), 1)
     }
-    const getCurrentProject = () => currentProject;
     const getCopyTasks = () => tasks;
     const getCopyProjects = () => projects;
     const deleteTask = (idToRemove) => { return tasks.splice(_findTaskIndexById(idToRemove), 1) }
@@ -81,9 +72,6 @@ const planner = () => {
         getCopyProjects,
         storeInfo,
         filterTasksByProject,
-        getCurrentProject,
-        setCurrentProject,
-        getProjectDetails,
         getUserProjects,
         getAllProjectTitles,
         findProjectTitle,

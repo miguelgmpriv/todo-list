@@ -1,6 +1,9 @@
-import { makeSelect, populateDom } from './domfunctions'
-import { findNode, findParentNode, limitDates, getDetailsFromDom, daysToFind } from "./scripts/helpers";
-import { toDoList } from "./scripts/list";
+import { makeSelect } from './builddom'
+import { populateDom, deleteTask, deleteProject } from "./updatedom";
+import { findNode, findParentNode, limitDates, getDetailsFromDom, filterByDays } from "./helpers";
+import { toDoList } from "./list";
+
+let currentProject = 'Inbox';
 
 const toggleHidden = (element) => element.classList.toggle('hidden');
 
@@ -38,8 +41,6 @@ const openModal = (event) => {
     toggleHidden(modal);
 };
 
-
-
 const validateProjectForm = (projectForm) => {
     const title = projectForm.querySelector('#project-title');
     if (!toDoList.findProjectTitle(title.value)) return true;
@@ -55,13 +56,14 @@ const handleFormSubmit = (event) => {
     if (form.id === 'add-project-form') {
         if (!validateProjectForm(form)) return;
         toDoList.storeInfo(domInfo);
+        currentProject = domInfo.title;
     } else if (form.id === 'edit-task-form'){
         editTask(event);
     } else if (form.id === 'add-task-form'){
         toDoList.storeInfo(domInfo);
     }
     hideModal(event);
-    populateDom(toDoList.getCurrentProject());
+    populateDom(currentProject);
 };
 
 const toggleTaskDescription = (event) => {
@@ -70,22 +72,18 @@ const toggleTaskDescription = (event) => {
     const descriptionNode = findNode(taskNodeList, 'description');
     toggleHidden(descriptionNode);
 };
+
 const toggleCheckBox = (event) =>{
     console.log(event);
 
-}
+};
+
 const editTask = (event) =>{
     const idToEdit = event.target.dataset.id;
     const domInfo = getDetailsFromDom(event.target);
     toDoList.editTask(idToEdit, domInfo);
 };
 
-const deleteTask = (event) => {
-    const idToRemove = event.target.dataset.id
-    toDoList.deleteTask(idToRemove);
-    console.log(toDoList.getCopyTasks())
-    populateDom(toDoList.getCurrentProject());
-}
 const handleTaskEvents = (event) => {
     const target = event.target;
     if (target.classList.contains('check-project')){
@@ -113,33 +111,35 @@ const handleProjectClick = (event) => {
     const project = event.target.dataset.id;
     const type = event.target.dataset.type;
     if (type === 'delete') return deleteProject(project);
-    toDoList.setCurrentProject(project);
-    populateDom(project);
+    currentProject = project;
+    populateDom(currentProject);
 };
-
-const deleteProject = (project) => {
-    const result = window.confirm('This will delete all tasks related to this project. Click OK to continue.');
-    if (result) {
-        toDoList.deleteProject(project);
-        console.log(toDoList.getCopyTasks());
-        console.log(toDoList.getCopyProjects());
-        populateDom('Inbox')
-    }
-}
 
 const setProjectListeners = (element) => {
     const newProjectButton = element.querySelector('.new-project');
     const allProjects = element.querySelectorAll('.user-projects');
     newProjectButton.addEventListener('click', openModal);
     if (allProjects == null) return;
-    allProjects.forEach(element => {
-        element.addEventListener('click', handleProjectClick);
-    });
+    allProjects.forEach(element => { element.addEventListener('click', handleProjectClick) });
+};
+
+const handleTopSidebarClick = (event) =>{
+    const targetId = event.target.dataset.id;
+    const taskList = toDoList.getCopyTasks();
+    if (targetId === 'Inbox') return populateDom('Inbox');
+    if (targetId === 'Today'){
+        const filteredList = filterByDays(0, taskList);
+        return populateDom(targetId, filteredList);
+    };
+    if (targetId === 'Upcoming'){
+        const filteredList = filterByDays(7, taskList);
+        return populateDom(targetId, filteredList);
+    } 
 };
 
 const setTopSidebarListeners = () => {
-    const inbox = document.getElementById('Inbox');
-    inbox.addEventListener('click', handleProjectClick);
+    const links = document.querySelectorAll("[data-top-sidebar]");
+    links.forEach(element => { element.addEventListener('click', handleTopSidebarClick) });
 };
 
 export { setTaskListeners, setProjectListeners, setTopSidebarListeners }

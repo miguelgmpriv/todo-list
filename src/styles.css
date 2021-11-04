@@ -13,7 +13,7 @@ li {
     gap: 1rem;
 }
 [data-target]:hover,
-[data-project]:hover,
+[data-top-sidebar]:hover,
 .user-projects:hover{
     cursor: pointer;
     background-color: rgba(184, 195, 219, 0.404);

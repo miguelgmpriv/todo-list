@@ -1,5 +1,5 @@
 import { formatISO } from "date-fns";
-import { add } from "date-fns";
+import { add, compareAsc, parseISO } from "date-fns";
 
 const match = (() => {
     const stringToMatch = /^task-|^project-|^edit-/;
@@ -53,9 +53,13 @@ const limitDates = (nodeList) => {
     dateSelector.setAttribute('value', today)
     dateSelector.setAttribute('min', today);
 }
-const daysToFind = (numberOfDays) => {
+const filterByDays = (numberOfDays, taskList) => {
     const dateNow = new Date();
-    const result = add(dateNow, { days: numberOfDays});
-    console.log(result)
+    const timeElapsed = add(dateNow, { days: numberOfDays});
+    const filtered = taskList.filter(element => {
+        const date = parseISO(element.date);
+        if (compareAsc(date, timeElapsed) <= 0) return element;
+    });
+    return filtered;
 }
-export { findParentNode, findNode, limitDates, wipeContainer, getDetailsFromDom,daysToFind }
+export { findParentNode, findNode, limitDates, wipeContainer, getDetailsFromDom, filterByDays }

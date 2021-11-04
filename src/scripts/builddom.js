@@ -1,6 +1,5 @@
-import { setTaskListeners, setProjectListeners, setTopSidebarListeners } from "./userinterface";
-import { wipeContainer } from "./scripts/helpers";
-import { toDoList } from "./scripts/list";
+import { wipeContainer } from "./helpers";
+import { toDoList } from "./list";
 
 const clone = (() => {
     const taskTemplate = document.getElementById('task-template').content;
@@ -15,12 +14,6 @@ const clone = (() => {
         userProjectButton,
     }
 })();
-
-const populateDom = (currentProject) => {
-    updateTaskList(currentProject);
-    updateProjectList(currentProject);
-    setTopSidebarListeners();
-}
 
 const makeCheckBox = (id) => {
     const checkBox = document.createElement('input');
@@ -52,30 +45,10 @@ const makeTaskInDom = (taskDetails) => {
         container.textContent = detailsForDom[key];
         taskDiv.append(container);
     }
+    editIcon.dataset.target = 'edit-task-container';
     taskDiv.append(editIcon);
     taskDiv.append(trashIcon);
     return taskDiv;    
-};
-
-const updateTaskList = (currentProject) => {
-    const currentList = toDoList.filterTasksByProject(currentProject);
-    const taskContainer = document.querySelector('.task-list');
-    wipeContainer(taskContainer);
-    const newButton = clone.newTaskButton();
-    taskContainer.append(newButton);
-    if (currentList.length !== 0){
-        for (const element of currentList){
-            const taskCard = makeTaskInDom(element);
-            taskContainer.append(taskCard);
-        };
-    };
-    setTaskListeners(taskContainer);
-};
-
-const editCurrentProjectDiv = (currentProject) => {
-    const project = toDoList.getProjectDetails(currentProject);
-    const projectDiv = document.getElementById('current-user-project');
-    projectDiv.firstElementChild.textContent = project.title;
 };
 
 const makeProjectInDom = (details, mainContainer) => {
@@ -88,17 +61,6 @@ const makeProjectInDom = (details, mainContainer) => {
         container.append(trashIcon);
         mainContainer.append(container);
     };
-};
-
-const updateProjectList = (currentProject) => {
-    editCurrentProjectDiv(currentProject);
-    const projects = toDoList.getUserProjects();
-    const sidebarDiv = document.getElementById('user-projects');
-    const projectButton = clone.newProjectButton();
-    wipeContainer(sidebarDiv);
-    makeProjectInDom(projects, sidebarDiv);
-    sidebarDiv.append(projectButton);
-    setProjectListeners(sidebarDiv);
 };
 
 const makeSelect = (form) => {
@@ -121,4 +83,4 @@ const taskDetailsForDom = (details) => {
 
 
 
-export { updateTaskList, updateProjectList, populateDom, makeSelect }
+export { makeSelect, clone, makeTaskInDom, makeProjectInDom}
